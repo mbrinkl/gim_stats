@@ -1,5 +1,7 @@
+import { MapOf } from "@wise-old-man/utils";
+
 /**
- * Convert unranked kill counts from -1 to 0
+ * Convert unranked counts from -1 to 0
  */
 export const normalizeKillCount = (kills: number) => {
   if (kills === -1) return 0;
@@ -18,4 +20,30 @@ export const formatBossName = (bossName: string) => {
  */
 export const getWomImgUrl = (metric: string) => {
   return `https://raw.githubusercontent.com/wise-old-man/wise-old-man/master/app/public/img/metrics/${metric}.png`;
+};
+
+// TODO: clean this up lol
+interface IMetric {
+  metric: string;
+}
+
+export const combineCounts = <T1 extends string | number | symbol, T2 extends IMetric>(
+  arr: MapOf<T1, T2>[],
+  sumPropName: keyof T2,
+) => {
+  const flat = arr.flatMap((x) =>
+    Object.values(x).map((y: any) => ({ metric: y.metric, [sumPropName]: normalizeKillCount(y[sumPropName]) })),
+  );
+
+  const summed: any[] = [];
+  flat.forEach((category) => {
+    const index = summed.map((s) => s.metric).indexOf(category.metric);
+    if (index === -1) {
+      summed.push(category);
+    } else {
+      summed[index][sumPropName] += category[sumPropName];
+    }
+  });
+
+  return summed;
 };

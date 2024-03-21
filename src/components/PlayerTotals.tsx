@@ -1,41 +1,43 @@
 import { Stat, StatGroup, StatLabel, StatNumber, Text, VStack } from "@chakra-ui/react";
-import { BossValue, PlayerDetails } from "@wise-old-man/utils";
-import { formatBossName, getWomImgUrl, normalizeKillCount } from "../util";
+import { PlayerDetails } from "@wise-old-man/utils";
+import { combineCounts, formatBossName, getWomImgUrl } from "../util";
 import { Image } from "@chakra-ui/react";
 
 interface IPlayerTotalsProps {
   players: PlayerDetails[];
 }
 
-type BossSummary = Pick<BossValue, "metric" | "kills">;
-
 export const PlayerTotals = (props: IPlayerTotalsProps) => {
   const bosses = props.players.map((player) => player.latestSnapshot!.data.bosses);
-  const flat = bosses.flatMap((x) =>
-    Object.values(x).map<BossSummary>((y) => ({ metric: y.metric, kills: normalizeKillCount(y.kills) })),
-  );
+  const activities = props.players.map((player) => player.latestSnapshot!.data.activities);
 
-  const summed: BossSummary[] = [];
-  flat.forEach((boss) => {
-    const index = summed.map((s) => s.metric).indexOf(boss.metric);
-    if (index === -1) {
-      summed.push(boss);
-    } else {
-      summed[index].kills += boss.kills;
-    }
-  });
+  const bossCounts = combineCounts(bosses, "kills");
+  const activityCounts = combineCounts(activities, "score");
 
   return (
     <VStack>
       <Text fontSize="x-large">Combined Boss KC</Text>
       <StatGroup gap={75}>
-        {summed.map((boss) => (
+        {bossCounts.map((boss) => (
           <Stat key={boss.metric}>
             <StatLabel textTransform="capitalize">
               <Image src={getWomImgUrl(boss.metric)} alt="gg" />
               {formatBossName(boss.metric)}
             </StatLabel>
             <StatNumber>{boss.kills}</StatNumber>
+          </Stat>
+        ))}
+      </StatGroup>
+
+      <Text fontSize="x-large">Combined Activity Score</Text>
+      <StatGroup gap={75}>
+        {activityCounts.map((activity) => (
+          <Stat key={activity.metric}>
+            <StatLabel textTransform="capitalize">
+              <Image src={getWomImgUrl(activity.metric)} alt="gg" />
+              {formatBossName(activity.metric)}
+            </StatLabel>
+            <StatNumber>{activity.score}</StatNumber>
           </Stat>
         ))}
       </StatGroup>
