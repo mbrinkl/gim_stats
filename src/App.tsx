@@ -3,7 +3,8 @@ import { client } from "./womClient";
 import { PlayerDetails } from "@wise-old-man/utils";
 import { QueryStatusBar } from "./components/QueryStatusBar";
 import { PlayerTotals } from "./components/PlayerTotals";
-import { Box } from "@chakra-ui/react";
+import { Box, Link, VStack } from "@chakra-ui/react";
+import { ExternalLinkIcon } from "@chakra-ui/icons";
 
 const fetchPlayerDetails = async (playerName: string): Promise<PlayerDetails> => {
   // return new Promise((resolve, reject) => {
@@ -42,7 +43,7 @@ export const App = () => {
   const players = playerQueries.map((query) => query.data!);
 
   return (
-    <Box padding={3}>
+    <VStack gap={3} padding={3}>
       {players.map((player) => (
         <Box key={player.username}>
           <div>{player.username}</div>
@@ -50,6 +51,9 @@ export const App = () => {
         </Box>
       ))}
       <PlayerTotals players={players} />
-    </Box>
+      <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
+        Source <ExternalLinkIcon mx="2px" />
+      </Link>
+    </VStack>
   );
 };
