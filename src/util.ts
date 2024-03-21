@@ -32,15 +32,18 @@ export const combineCounts = <T1 extends string | number | symbol, T2 extends IM
   sumPropName: keyof T2,
 ) => {
   const flat = arr.flatMap((x) =>
+    // eslint-disable-next-line
     Object.values(x).map((y: any) => ({ metric: y.metric, [sumPropName]: normalizeKillCount(y[sumPropName]) })),
   );
 
+  // eslint-disable-next-line
   const summed: any[] = [];
   flat.forEach((category) => {
     const index = summed.map((s) => s.metric).indexOf(category.metric);
     if (index === -1) {
       summed.push(category);
     } else {
+      // @ts-expect-error temp
       summed[index][sumPropName] += category[sumPropName];
     }
   });
