@@ -1,4 +1,4 @@
-import { Stat, StatGroup, StatLabel, StatNumber } from "@chakra-ui/react";
+import { Stat, StatGroup, StatLabel, StatNumber, Text, VStack } from "@chakra-ui/react";
 import { BossValue, PlayerDetails } from "@wise-old-man/utils";
 import { formatBossName, normalizeKillCount } from "../util";
 
@@ -25,13 +25,16 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
   });
 
   return (
-    <StatGroup gap={75}>
-      {summed.map((boss) => (
-        <Stat w={1000}>
-          <StatLabel textTransform="capitalize">{formatBossName(boss.metric)}</StatLabel>
-          <StatNumber>{boss.kills}</StatNumber>
-        </Stat>
-      ))}
-    </StatGroup>
+    <VStack>
+      <Text fontSize="x-large">Combined Boss KC</Text>
+      <StatGroup gap={75}>
+        {summed.map((boss) => (
+          <Stat key={boss.metric}>
+            <StatLabel textTransform="capitalize">{formatBossName(boss.metric)}</StatLabel>
+            <StatNumber>{boss.kills}</StatNumber>
+          </Stat>
+        ))}
+      </StatGroup>
+    </VStack>
   );
 };

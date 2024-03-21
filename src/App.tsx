@@ -3,6 +3,7 @@ import { client } from "./womClient";
 import { PlayerDetails } from "@wise-old-man/utils";
 import { QueryStatusBar } from "./components/QueryStatusBar";
 import { PlayerTotals } from "./components/PlayerTotals";
+import { Box } from "@chakra-ui/react";
 
 const fetchPlayerDetails = async (playerName: string): Promise<PlayerDetails> => {
   // return new Promise((resolve, reject) => {
@@ -24,7 +25,7 @@ const fetchPlayerDetails = async (playerName: string): Promise<PlayerDetails> =>
 
 export const gimUsernames: string[] = ["v_trajan_v", "v_aurelius_v", "v_hadrian_v"];
 
-const App = () => {
+export const App = () => {
   const playerQueries = useQueries({
     queries: gimUsernames.map((username) => {
       return {
@@ -34,14 +35,6 @@ const App = () => {
     }),
   });
 
-  if (playerQueries.some((query) => query.error)) {
-    return (
-      <div>
-        <p>Error Fetching Data</p>
-      </div>
-    );
-  }
-
   if (!playerQueries.every((query) => query.data)) {
     return <QueryStatusBar queries={playerQueries} />;
   }
@@ -49,17 +42,14 @@ const App = () => {
   const players = playerQueries.map((query) => query.data!);
 
   return (
-    <div>
+    <Box padding={3}>
       {players.map((player) => (
-        <div>
+        <Box key={player.username}>
           <div>{player.username}</div>
-          <div>{player.updatedAt?.toString()}</div>
-          <div>{player.latestSnapshot?.data.bosses.duke_sucellus.kills}</div>
-        </div>
+          <div>Last Update: {player.updatedAt?.toString()}</div>
+        </Box>
       ))}
       <PlayerTotals players={players} />
-    </div>
+    </Box>
   );
 };
-
-export default App;
