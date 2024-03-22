@@ -29,15 +29,15 @@ export const App = () => {
 
   return (
     <VStack gap={3} padding={3}>
-      <Flex w="100%" justify="flex-end">
+      <Flex w="100%" justify="space-between" align="center">
+        <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
+          Source <ExternalLinkIcon mx="2px" />
+        </Link>
         <Button ref={drawerFinalFocusRef} onClick={onDrawerOpen}>
           Players Info
         </Button>
       </Flex>
       <PlayerTotals players={players} />
-      <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
-        Source <ExternalLinkIcon mx="2px" />
-      </Link>
       <PlayerUpdateDrawer
         isOpen={isDrawerOpen}
         onClose={onDrawerClose}
