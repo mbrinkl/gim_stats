@@ -1,7 +1,7 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { UseQueryResult } from "@tanstack/react-query";
 import { PlayerDetails } from "@wise-old-man/utils";
-import { gimUsernames } from "../App";
+import { GROUP_USERNAMES } from "../config";
 
 interface IQueryStatusBarProps {
   queries: UseQueryResult<PlayerDetails, Error>[];
@@ -33,8 +33,8 @@ const QueryStatus = (props: IQueryStatus) => {
 export const QueryStatusBar = (props: IQueryStatusBarProps) => {
   return props.queries.map((query, index) => (
     <QueryStatus
-      key={gimUsernames[index]}
-      username={gimUsernames[index]}
+      key={GROUP_USERNAMES[index]}
+      username={GROUP_USERNAMES[index]}
       isLoading={query.isLoading}
       isError={query.isError}
     />

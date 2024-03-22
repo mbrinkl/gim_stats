@@ -1,34 +1,19 @@
 import { useQueries } from "@tanstack/react-query";
-import { client } from "./womClient";
-import { PlayerDetails } from "@wise-old-man/utils";
 import { QueryStatusBar } from "./components/QueryStatusBar";
 import { PlayerTotals } from "./components/PlayerTotals";
-import { Box, Link, VStack } from "@chakra-ui/react";
+import { Button, Flex, Link, VStack, useDisclosure } from "@chakra-ui/react";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-
-const fetchPlayerDetails = async (playerName: string): Promise<PlayerDetails> => {
-  // return new Promise((resolve, reject) => {
-  //   import("./assets/sample.json")
-  //     .then((data) => {
-  //       const playerDetails = {
-  //         ...data,
-  //         username: playerName,
-  //         displayName: playerName,
-  //       } as unknown as PlayerDetails;
-  //       return resolve(playerDetails);
-  //     })
-  //     .catch((err) => {
-  //       return reject(err);
-  //     });
-  // });
-  return await client.players.getPlayerDetails(playerName);
-};
-
-export const gimUsernames: string[] = ["v_trajan_v", "v_aurelius_v", "v_hadrian_v"];
+import { fetchPlayerDetails } from "./api/womClient";
+import { GROUP_USERNAMES } from "./config";
+import { PlayerUpdateDrawer } from "./components/PlayerUpdateDrawer";
+import { useRef } from "react";
 
 export const App = () => {
+  const { isOpen: isDrawerOpen, onOpen: onDrawerOpen, onClose: onDrawerClose } = useDisclosure();
+  const drawerFinalFocusRef = useRef<HTMLButtonElement>(null);
+
   const playerQueries = useQueries({
-    queries: gimUsernames.map((username) => {
+    queries: GROUP_USERNAMES.map((username) => {
       return {
         queryKey: ["details", username],
         queryFn: () => fetchPlayerDetails(username),
@@ -44,16 +29,21 @@ export const App = () => {
 
   return (
     <VStack gap={3} padding={3}>
-      {players.map((player) => (
-        <Box key={player.username}>
-          <div>{player.username}</div>
-          <div>Last Update: {player.updatedAt?.toString()}</div>
-        </Box>
-      ))}
+      <Flex w="100%" justify="flex-end">
+        <Button ref={drawerFinalFocusRef} onClick={onDrawerOpen}>
+          Players Info
+        </Button>
+      </Flex>
       <PlayerTotals players={players} />
       <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
         Source <ExternalLinkIcon mx="2px" />
       </Link>
+      <PlayerUpdateDrawer
+        isOpen={isDrawerOpen}
+        onClose={onDrawerClose}
+        finalFocusRef={drawerFinalFocusRef}
+        players={players}
+      />
     </VStack>
   );
 };
