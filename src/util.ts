@@ -19,9 +19,8 @@ export const formatBossName = (bossName: string) => {
  * Format a count value into formatted string
  */
 export const formatCount = (count: number): string => {
-  const MIL = 1_000_000;
-  if (count > MIL) {
-    const formatted = (Math.floor((count / MIL) * 10) / 10).toFixed(1);
+  if (count > 100_000) {
+    const formatted = (Math.floor((count / 1_000_000) * 10) / 10).toFixed(1);
     return formatted + "M";
   }
   return count.toString();
@@ -37,30 +36,40 @@ export const getWomImgUrl = (metric: string) => {
 // TODO: clean this up lol
 export interface ICombined {
   metric: string;
-  count: number;
+  playerData: {
+    username: string;
+    count: number;
+    level?: number;
+  }[];
 }
 
-export const combineBossKC = (maps: MapOf<Boss, BossValue>[]) => {
-  const flat = maps.flatMap((x) =>
-    Object.values(x).map<ICombined>((y) => ({ metric: y.metric, count: normalizeCount(y.kills) })),
+export const combineBossKC = (data: { username: string; maps: MapOf<Boss, BossValue> }[]) => {
+  const flat = data.flatMap((x) =>
+    Object.values(x.maps).map<ICombined>((y) => ({
+      metric: y.metric,
+      playerData: [{ username: x.username, count: normalizeCount(y.kills) }],
+    })),
   );
-
   return comby(flat);
 };
 
-export const combineActivityScore = (maps: MapOf<Activity, ActivityValue>[]) => {
-  const flat = maps.flatMap((x) =>
-    Object.values(x).map<ICombined>((y) => ({ metric: y.metric, count: normalizeCount(y.score) })),
+export const combineActivityScore = (data: { username: string; maps: MapOf<Activity, ActivityValue> }[]) => {
+  const flat = data.flatMap((x) =>
+    Object.values(x.maps).map<ICombined>((y) => ({
+      metric: y.metric,
+      playerData: [{ username: x.username, count: normalizeCount(y.score) }],
+    })),
   );
-
   return comby(flat);
 };
 
-export const combineSkillXP = (maps: MapOf<Skill, SkillValue>[]) => {
-  const flat = maps.flatMap((x) =>
-    Object.values(x).map<ICombined>((y) => ({ metric: y.metric, count: normalizeCount(y.experience) })),
+export const combineSkillXP = (data: { username: string; maps: MapOf<Skill, SkillValue> }[]) => {
+  const flat = data.flatMap((x) =>
+    Object.values(x.maps).map<ICombined>((y) => ({
+      metric: y.metric,
+      playerData: [{ username: x.username, count: normalizeCount(y.experience), level: y.level }],
+    })),
   );
-
   return comby(flat);
 };
 
@@ -71,7 +80,7 @@ const comby = (flat: ICombined[]) => {
     if (index === -1) {
       summed.push(category);
     } else {
-      summed[index].count += category.count;
+      summed[index].playerData.push(category.playerData[0]);
     }
   });
   return summed;
