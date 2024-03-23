@@ -34,13 +34,13 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
       </TabList>
 
       <TabPanels>
-        <TabPanel px={0}>
+        <TabPanel>
           <CombinedCountTable combinedCounts={bossCounts} tableType="Boss" />
         </TabPanel>
-        <TabPanel px={0}>
+        <TabPanel>
           <CombinedCountTable combinedCounts={activityCounts} tableType="Activity" />
         </TabPanel>
-        <TabPanel px={0}>
+        <TabPanel>
           <CombinedCountTable combinedCounts={skillCounts} tableType="Skill" />
         </TabPanel>
       </TabPanels>
