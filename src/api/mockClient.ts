@@ -8,6 +8,7 @@ export const mockFetchPlayerDetails = async (playerName: string): Promise<Player
           ...data,
           username: playerName,
           displayName: playerName,
+          updatedAt: new Date(data.updatedAt),
         } as unknown as PlayerDetails;
         return resolve(playerDetails);
       })

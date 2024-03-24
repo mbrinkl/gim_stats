@@ -9,6 +9,7 @@ import {
   Text,
 } from "@chakra-ui/react";
 import { PlayerDetails } from "@wise-old-man/utils";
+import moment from "moment";
 import { RefObject } from "react";
 
 interface IPlayerUpdateDrawerProps {
@@ -28,7 +29,7 @@ export const PlayerUpdateDrawer = (props: IPlayerUpdateDrawerProps) => {
           {props.players.map((player) => (
             <Box key={player.username}>
               <Text>{player.username}</Text>
-              <Text>Last Update: {player.updatedAt?.toString()}</Text>
+              <Text>Last Update: {moment(player.updatedAt!).fromNow()}</Text>
               <Button isDisabled>Update</Button>
             </Box>
           ))}
