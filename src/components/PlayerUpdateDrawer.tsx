@@ -64,7 +64,7 @@ export const PlayerUpdateDrawer = (props: IPlayerUpdateDrawerProps) => {
             <Box key={player.username}>
               <Text>{player.username}</Text>
               <Text>Last Update: {moment(player.updatedAt!).fromNow()}</Text>
-              <Button onClick={() => mutate(player.username)} isDisabled={isPending}>
+              <Button onClick={() => mutate(player.username)} isLoading={isPending}>
                 Update
               </Button>
             </Box>
