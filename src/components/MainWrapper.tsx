@@ -17,8 +17,8 @@ export const MainWrapper = (props: IMainWrapperProps) => {
   return (
     <VStack gap={3} padding={3}>
       <Flex w="100%" justify="space-between" align="center">
-        <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
-          Source <ExternalLinkIcon mx="2px" />
+        <Link href="https://wiseoldman.net/groups/7075" isExternal>
+          WOM Group <ExternalLinkIcon mx="2px" />
         </Link>
         <Button ref={drawerFinalFocusRef} onClick={onDrawerOpen}>
           Players Info
@@ -32,6 +32,9 @@ export const MainWrapper = (props: IMainWrapperProps) => {
         players={players}
         setPlayers={setPlayers}
       />
+      <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
+        Source <ExternalLinkIcon mx="2px" />
+      </Link>
     </VStack>
   );
 };
