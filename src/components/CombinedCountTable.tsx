@@ -1,5 +1,5 @@
 import { Image, Flex, Stat, StatLabel, StatNumber } from "@chakra-ui/react";
-import { ICombined, formatBossName, formatCount, getWomImgUrl } from "../util";
+import { ICombined, formatCount, getWomImgUrl } from "../util";
 import { IndividualMetricComparison } from "./IndividualMetricComparison";
 
 interface ICombinedCountTableProps {
@@ -15,7 +15,7 @@ export const CombinedCountTable = (props: ICombinedCountTableProps) => {
           <Stat key={combined.metric}>
             <StatLabel textTransform="capitalize">
               <Image src={getWomImgUrl(combined.metric)} />
-              {formatBossName(combined.metric)}
+              {combined.metric}
             </StatLabel>
             <StatNumber> {formatCount(combined.playerData.reduce((sum, y) => sum + y.count, 0))}</StatNumber>
             {/* <StatHelpText>temp</StatHelpText> */}

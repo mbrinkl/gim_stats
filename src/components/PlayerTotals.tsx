@@ -1,42 +1,29 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { PlayerDetails } from "@wise-old-man/utils";
-import { combineActivityScore, combineBossKC, combineSkillXP } from "../util";
+import { combineActivityScore, combineSkillXP } from "../util";
 import { CombinedCountTable } from "./CombinedCountTable";
+import { IPlayerDetails } from "../types/osrsApiTypes";
 
 interface IPlayerTotalsProps {
-  players: PlayerDetails[];
+  players: IPlayerDetails[];
 }
 
 export const PlayerTotals = (props: IPlayerTotalsProps) => {
-  const bosses = props.players.map((player) => ({
-    username: player.username,
-    maps: player.latestSnapshot!.data.bosses,
-  }));
-  const activities = props.players.map((player) => ({
-    username: player.username,
-    maps: player.latestSnapshot!.data.activities,
-  }));
-  const skills = props.players.map((player) => ({
-    username: player.username,
-    maps: player.latestSnapshot!.data.skills,
-  }));
-
-  const bossCounts = combineBossKC(bosses);
-  const activityCounts = combineActivityScore(activities);
-  const skillCounts = combineSkillXP(skills);
+  // const bossCounts = combineBossKC(props.players);
+  const activityCounts = combineActivityScore(props.players);
+  const skillCounts = combineSkillXP(props.players);
 
   return (
     <Tabs w="100%" isFitted>
       <TabList>
-        <Tab>Bosses</Tab>
-        <Tab>Activities</Tab>
+        {/* <Tab>Bosses</Tab> */}
+        <Tab>Bosses / Activities</Tab>
         <Tab>Skills</Tab>
       </TabList>
 
       <TabPanels>
-        <TabPanel>
+        {/* <TabPanel>
           <CombinedCountTable combinedCounts={bossCounts} tableType="Boss" />
-        </TabPanel>
+        </TabPanel> */}
         <TabPanel>
           <CombinedCountTable combinedCounts={activityCounts} tableType="Activity" />
         </TabPanel>

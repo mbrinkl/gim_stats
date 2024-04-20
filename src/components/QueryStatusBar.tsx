@@ -1,10 +1,10 @@
 import { Flex, Spinner, Text } from "@chakra-ui/react";
 import { UseQueryResult } from "@tanstack/react-query";
-import { PlayerDetails } from "@wise-old-man/utils";
 import { GROUP_USERNAMES } from "../config";
+import { IPlayerDetails } from "../types/osrsApiTypes";
 
 interface IQueryStatusBarProps {
-  queries: UseQueryResult<PlayerDetails, Error>[];
+  queries: UseQueryResult<IPlayerDetails, Error>[];
 }
 
 interface IQueryStatus {

@@ -1,29 +1,17 @@
 import { useQueries } from "@tanstack/react-query";
-import { PlayerDetails } from "@wise-old-man/utils";
 import { GROUP_USERNAMES } from "../config";
-import { client } from "./womClient";
+import { IPlayerDetails } from "../types/osrsApiTypes";
 
-const mockFetchPlayer = async (playerName: string): Promise<PlayerDetails> => {
-  return new Promise((resolve, reject) => {
-    import("../assets/sample.json")
-      .then((data) => {
-        const playerDetails = {
-          ...data,
-          username: playerName,
-          displayName: playerName,
-          updatedAt: new Date(data.updatedAt),
-        } as unknown as PlayerDetails;
-        return resolve(playerDetails);
-      })
-      .catch((err) => {
-        return reject(err);
-      });
-  });
-};
+const fetchPlayer = async (playerName: string): Promise<IPlayerDetails> => {
+  const url = "https://secure.runescape.com/m=hiscore_oldschool/index_lite.json?player=" + playerName;
+  const proxiedUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
+  const res = await fetch(proxiedUrl);
+  const data = (await res.json()) as IPlayerDetails;
 
-const fetchPlayer = async (playerName: string): Promise<PlayerDetails> => {
-  if (import.meta.env.MODE === "mocked") return mockFetchPlayer(playerName);
-  return await client.players.getPlayerDetails(playerName);
+  // add custom properties
+  data.username = playerName;
+
+  return data;
 };
 
 export const useFetchPlayerQueries = () =>
