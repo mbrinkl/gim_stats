@@ -9,16 +9,16 @@ interface IMainWrapperProps {
 
 export const MainWrapper = (props: IMainWrapperProps) => {
   return (
-    <VStack gap={3} padding={3}>
+    <VStack gap={5} padding={3}>
+      <PlayerTotals players={props.players} />
       <Flex w="100%" justify="space-between" align="center">
         <Link href="https://wiseoldman.net/groups/7075" isExternal>
           WOM Group <ExternalLinkIcon mx="2px" />
         </Link>
+        <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
+          Source <ExternalLinkIcon mx="2px" />
+        </Link>
       </Flex>
-      <PlayerTotals players={props.players} />
-      <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
-        Source <ExternalLinkIcon mx="2px" />
-      </Link>
     </VStack>
   );
 };
