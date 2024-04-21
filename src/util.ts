@@ -24,7 +24,7 @@ export const formatCount = (count: number): string => {
 /**
  * Get PNG for metric from WOM GitHub repo
  */
-export const getWomImgUrl = (metric: string): string => {
+export const getWomImages = (metric: string) => {
   let formatted = metric
     .toLocaleLowerCase()
     .replace(" - rank", "")
@@ -39,7 +39,10 @@ export const getWomImgUrl = (metric: string): string => {
   } else if (formatted === "lms") {
     formatted = "last_man_standing";
   }
-  return `https://raw.githubusercontent.com/wise-old-man/wise-old-man/master/app/public/img/metrics/${formatted}.png`;
+  return {
+    backgroundImg: `https://raw.githubusercontent.com/wise-old-man/wise-old-man/master/app/public/img/backgrounds/${formatted}.png`,
+    metricImg: `https://raw.githubusercontent.com/wise-old-man/wise-old-man/master/app/public/img/metrics/${formatted}.png`,
+  };
 };
 
 export const combineActivityScore = (players: IPlayerDetails[]) => {
