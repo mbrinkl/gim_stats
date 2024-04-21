@@ -1,7 +1,7 @@
 import { Flex, Link, VStack } from "@chakra-ui/react";
 import { PlayerTotals } from "./PlayerTotals";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { IPlayerDetails } from "../types/osrsApiTypes";
+import { IPlayerDetails } from "../types";
 
 interface IMainWrapperProps {
   players: IPlayerDetails[];
