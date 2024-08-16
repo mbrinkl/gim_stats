@@ -17,10 +17,10 @@ export const SearchBar = (props: ISearchBarProps) => {
 
   return (
     <InputGroup size="md">
-      <Input pr="4.5rem" placeholder="Search" onChange={onSearch} value={props.value} />
+      <Input placeholder="Search" onChange={onSearch} value={props.value} />
       {props.value && (
-        <InputRightElement width="4.5rem">
-          <IconButton size="sm" h="1.75rem" aria-label="Clear search" icon={<CloseIcon />} onClick={onClearSearch} />
+        <InputRightElement>
+          <IconButton size="xs" aria-label="Clear search" icon={<CloseIcon />} onClick={onClearSearch} />
         </InputRightElement>
       )}
     </InputGroup>

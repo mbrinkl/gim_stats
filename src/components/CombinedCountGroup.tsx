@@ -1,5 +1,5 @@
 import { Image, Flex, Stat, StatLabel, StatNumber, StatHelpText } from "@chakra-ui/react";
-import { formatCount, getWomImages } from "../util";
+import { combineCounts, formatCount, getWomImages } from "../util";
 import { IndividualMetricComparison } from "./IndividualMetricComparison";
 import { ICombined } from "../types";
 
@@ -26,7 +26,7 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
           >
             <Stat key={combined.metric}>
               <StatLabel>{combined.metric}</StatLabel>
-              <StatNumber> {formatCount(combined.playerData.reduce((sum, y) => sum + y.count, 0))}</StatNumber>
+              <StatNumber>{formatCount(combineCounts(combined))}</StatNumber>
               <StatHelpText mb={0} opacity={1}>
                 <Image src={metricImg} />
               </StatHelpText>

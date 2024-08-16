@@ -1,24 +1,29 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
-import { combineActivityScore, combineSkillXP } from "../util";
+import { combineActivityScore, combineSkillXP, sort } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
 import { ICombined, IPlayerDetails } from "../types";
 import { useMemo } from "react";
+import { SortMethod } from "../enums";
 
 interface IPlayerTotalsProps {
   players: IPlayerDetails[];
   searchedMetric: string;
+  sortMethod: SortMethod;
 }
 
 export const PlayerTotals = (props: IPlayerTotalsProps) => {
-  const skillCounts = useMemo(() => combineSkillXP(props.players), [props.players]);
+  const skillCounts = useMemo(
+    () => sort(combineSkillXP(props.players), props.sortMethod),
+    [props.players, props.sortMethod],
+  );
   const [bossCounts, activityCounts] = useMemo(() => {
     // Osrs API combines activities and bosses as one group, so split them up
     const activityAndBossCounts = combineActivityScore(props.players);
     const firstBoss = "Abyssal Sire";
     const firstBossIndex = activityAndBossCounts.findIndex((x) => x.metric === firstBoss);
     const splicedBossCounts = activityAndBossCounts.splice(firstBossIndex);
-    return [splicedBossCounts, activityAndBossCounts];
-  }, [props.players]);
+    return [sort(splicedBossCounts, props.sortMethod), sort(activityAndBossCounts, props.sortMethod)];
+  }, [props.players, props.sortMethod]);
 
   if (props.searchedMetric) {
     const matches: ICombined[] = [];

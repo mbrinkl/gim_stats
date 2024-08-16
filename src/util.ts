@@ -1,6 +1,7 @@
 import { HIDDEN_ACTIVITIES } from "./config";
 import { ICombined } from "./types/ICombined";
 import { IActivity, IPlayerDetails, ISkill } from "./types";
+import { SortMethod } from "./enums";
 
 /**
  * Convert unranked counts from -1 to 0
@@ -87,4 +88,20 @@ export const combineSkillXP = (players: IPlayerDetails[]) => {
 
 const getCombinedSkillData = (player: IPlayerDetails, skill: ISkill) => {
   return { username: player.username, count: skill.xp, level: skill.level };
+};
+
+export const combineCounts = (combined: ICombined): number => {
+  return combined.playerData.reduce((sum, y) => sum + y.count, 0);
+};
+
+export const sort = (arr: ICombined[], method: SortMethod): ICombined[] => {
+  switch (method) {
+    case SortMethod.DEFAULT:
+    default:
+      return arr;
+    case SortMethod.ALPHABETICAL:
+      return arr.sort((a, b) => a.metric.localeCompare(b.metric));
+    case SortMethod.BY_COUNT:
+      return arr.sort((a, b) => combineCounts(b) - combineCounts(a));
+  }
 };
