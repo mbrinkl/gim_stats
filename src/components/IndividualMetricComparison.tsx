@@ -1,4 +1,4 @@
-import { Box, Text } from "@chakra-ui/react";
+import { Box, Flex, Text } from "@chakra-ui/react";
 import { formatCount } from "../util";
 import { ICombined } from "../types";
 
@@ -12,9 +12,12 @@ export const IndividualMetricComparison = (props: IIndividualMetricComparisonPro
   return (
     <Box>
       {sorted.map((data) => (
-        <Text key={data.username}>
-          {data.username}: {formatCount(data.count)} {data.level && <span>(Lv{data.level})</span>}
-        </Text>
+        <Flex key={data.username} justify="space-between" gap={1}>
+          <Text>{data.username}:</Text>
+          <Text align="right">
+            {formatCount(data.count)} {data.level && <span>(Lv{data.level})</span>}
+          </Text>
+        </Flex>
       ))}
     </Box>
   );

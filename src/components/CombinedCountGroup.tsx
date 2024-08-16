@@ -27,7 +27,7 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
             <Stat key={combined.metric}>
               <StatLabel>{combined.metric}</StatLabel>
               <StatNumber> {formatCount(combined.playerData.reduce((sum, y) => sum + y.count, 0))}</StatNumber>
-              <StatHelpText>
+              <StatHelpText mb={0} opacity={1}>
                 <Image src={metricImg} />
               </StatHelpText>
             </Stat>
