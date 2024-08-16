@@ -7,9 +7,11 @@ interface IIndividualMetricComparisonProps {
 }
 
 export const IndividualMetricComparison = (props: IIndividualMetricComparisonProps) => {
+  const sorted = props.combined.playerData.sort((a, b) => b.count - a.count);
+
   return (
     <Box>
-      {props.combined.playerData.map((data) => (
+      {sorted.map((data) => (
         <Text key={data.username}>
           {data.username}: {formatCount(data.count)} {data.level && <span>(Lv{data.level})</span>}
         </Text>
