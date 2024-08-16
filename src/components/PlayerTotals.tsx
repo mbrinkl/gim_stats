@@ -2,6 +2,7 @@ import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react"
 import { combineActivityScore, combineSkillXP } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
 import { ICombined, IPlayerDetails } from "../types";
+import { useMemo } from "react";
 
 interface IPlayerTotalsProps {
   players: IPlayerDetails[];
@@ -9,14 +10,15 @@ interface IPlayerTotalsProps {
 }
 
 export const PlayerTotals = (props: IPlayerTotalsProps) => {
-  // should probably be memoized
-  const activityCounts = combineActivityScore(props.players);
-  const skillCounts = combineSkillXP(props.players);
-
-  // Osrs API combines activities and bosses as one group, so split them up
-  const firstBoss = "Abyssal Sire";
-  const firstBossIndex = activityCounts.findIndex((x) => x.metric === firstBoss);
-  const bossCounts = activityCounts.splice(firstBossIndex);
+  const skillCounts = useMemo(() => combineSkillXP(props.players), [props.players]);
+  const [bossCounts, activityCounts] = useMemo(() => {
+    // Osrs API combines activities and bosses as one group, so split them up
+    const activityAndBossCounts = combineActivityScore(props.players);
+    const firstBoss = "Abyssal Sire";
+    const firstBossIndex = activityAndBossCounts.findIndex((x) => x.metric === firstBoss);
+    const splicedBossCounts = activityAndBossCounts.splice(firstBossIndex);
+    return [splicedBossCounts, activityAndBossCounts];
+  }, [props.players]);
 
   if (props.searchedMetric) {
     const matches: ICombined[] = [];

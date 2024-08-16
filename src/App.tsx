@@ -1,5 +1,5 @@
 import { QueryStatusBar } from "./components/QueryStatusBar";
-import { MainWrapper } from "./components/MainWrapper";
+import { HomePage } from "./components/HomePage";
 import { useFetchPlayerQueries } from "./api/fetchPlayer";
 
 export const App = () => {
@@ -11,5 +11,5 @@ export const App = () => {
 
   const players = playerQueries.map((query) => query.data!);
 
-  return <MainWrapper players={players} />;
+  return <HomePage players={players} />;
 };
