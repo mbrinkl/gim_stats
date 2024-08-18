@@ -56,7 +56,7 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
   }, [props.players]);
 
   if (props.searchedMetric) {
-    const result = fuzzysort.go(props.searchedMetric.toLowerCase(), allCounts, {
+    const result = fuzzysort.go(props.searchedMetric, allCounts, {
       keys: ["metric.name", (obj) => obj.metric.aliases.join()],
       threshold: 0.5,
     });

@@ -98,14 +98,15 @@ export const combineCounts = (combined: ICombined): number => {
 };
 
 export const sort = (arr: ICombined[], method: SortMethod): ICombined[] => {
+  const deepClonedArr = JSON.parse(JSON.stringify(arr)) as ICombined[];
   switch (method) {
     case SortMethod.DEFAULT:
     default:
-      return arr;
+      return deepClonedArr;
     case SortMethod.ALPHABETICAL:
-      return arr.sort((a, b) => a.metric.name.localeCompare(b.metric.name));
+      return deepClonedArr.sort((a, b) => a.metric.name.localeCompare(b.metric.name));
     case SortMethod.BY_COUNT:
-      return arr.sort((a, b) => combineCounts(b) - combineCounts(a));
+      return deepClonedArr.sort((a, b) => combineCounts(b) - combineCounts(a));
   }
 };
 
