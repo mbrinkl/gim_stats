@@ -21,7 +21,7 @@ interface ITabbedTotals {
 
 const TabbedTotals = (props: ITabbedTotals) => {
   return (
-    <Tabs w="100%" isFitted>
+    <Tabs w="100%" isFitted isLazy>
       <TabList>
         <Tab>Bosses</Tab>
         <Tab>Activities</Tab>
