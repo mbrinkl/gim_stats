@@ -31,7 +31,7 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
 
     const result = fuzzysort.go(props.searchedMetric.toLowerCase(), searchable, {
       keys: ["metric.name", (obj) => obj.metric.aliases.join()],
-      threshold: 0.25,
+      threshold: 0.5,
     });
 
     if (result.length === 0) {
