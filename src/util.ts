@@ -1,4 +1,4 @@
-import { HIDDEN_ACTIVITIES } from "./config";
+import { ALIASES, HIDDEN_ACTIVITIES } from "./config";
 import { ICombined } from "./types/ICombined";
 import { IActivity, IPlayerDetails, ISkill } from "./types";
 import { SortMethod } from "./enums";
@@ -53,9 +53,12 @@ export const combineActivityScore = (players: IPlayerDetails[]) => {
       if (HIDDEN_ACTIVITIES.includes(activity.name)) {
         return;
       }
-      const index = combined.map((s) => s.metric).indexOf(activity.name);
+      const index = combined.map((s) => s.metric.name).indexOf(activity.name);
       if (index === -1) {
-        combined.push({ metric: activity.name, playerData: [getCombinedActivityData(player, activity)] });
+        combined.push({
+          metric: { name: activity.name, aliases: getAliases(activity.name) },
+          playerData: [getCombinedActivityData(player, activity)],
+        });
       } else {
         combined[index].playerData.push(getCombinedActivityData(player, activity));
       }
@@ -72,10 +75,10 @@ export const combineSkillXP = (players: IPlayerDetails[]) => {
   const combined: ICombined[] = [];
   players.forEach((player) => {
     player.skills.forEach((skill) => {
-      const index = combined.map((s) => s.metric).indexOf(skill.name);
+      const index = combined.map((s) => s.metric.name).indexOf(skill.name);
       if (index === -1) {
         combined.push({
-          metric: skill.name,
+          metric: { name: skill.name, aliases: getAliases(skill.name) },
           playerData: [getCombinedSkillData(player, skill)],
         });
       } else {
@@ -100,8 +103,12 @@ export const sort = (arr: ICombined[], method: SortMethod): ICombined[] => {
     default:
       return arr;
     case SortMethod.ALPHABETICAL:
-      return arr.sort((a, b) => a.metric.localeCompare(b.metric));
+      return arr.sort((a, b) => a.metric.name.localeCompare(b.metric.name));
     case SortMethod.BY_COUNT:
       return arr.sort((a, b) => combineCounts(b) - combineCounts(a));
   }
+};
+
+const getAliases = (metric: string): string[] => {
+  return ALIASES[metric] ?? [];
 };

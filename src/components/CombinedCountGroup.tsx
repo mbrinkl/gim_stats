@@ -11,10 +11,10 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
   return (
     <Flex gap={3} flexWrap="wrap" justify="center">
       {props.combinedCounts.map((combined) => {
-        const { backgroundImg, metricImg } = getWomImages(combined.metric);
+        const { backgroundImg, metricImg } = getWomImages(combined.metric.name);
         return (
           <Flex
-            key={combined.metric}
+            key={combined.metric.name}
             gap={3}
             border="1px solid white"
             borderRadius="15px"
@@ -24,8 +24,8 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
             backgroundImage={backgroundImg}
             backgroundSize="cover"
           >
-            <Stat key={combined.metric}>
-              <StatLabel>{combined.metric}</StatLabel>
+            <Stat key={combined.metric.name}>
+              <StatLabel>{combined.metric.name}</StatLabel>
               <StatNumber>{formatCount(combineCounts(combined))}</StatNumber>
               <StatHelpText mb={0} opacity={1}>
                 <Image src={metricImg} />

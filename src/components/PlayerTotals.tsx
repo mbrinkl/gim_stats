@@ -1,9 +1,10 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { combineActivityScore, combineSkillXP, sort } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
-import { ICombined, IPlayerDetails } from "../types";
+import { IPlayerDetails } from "../types";
 import { useMemo } from "react";
 import { SortMethod } from "../enums";
+import fuzzysort from "fuzzysort";
 
 interface IPlayerTotalsProps {
   players: IPlayerDetails[];
@@ -20,29 +21,24 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
     // Osrs API combines activities and bosses as one group, so split them up
     const activityAndBossCounts = combineActivityScore(props.players);
     const firstBoss = "Abyssal Sire";
-    const firstBossIndex = activityAndBossCounts.findIndex((x) => x.metric === firstBoss);
+    const firstBossIndex = activityAndBossCounts.findIndex((x) => x.metric.name === firstBoss);
     const splicedBossCounts = activityAndBossCounts.splice(firstBossIndex);
     return [sort(splicedBossCounts, props.sortMethod), sort(activityAndBossCounts, props.sortMethod)];
   }, [props.players, props.sortMethod]);
 
   if (props.searchedMetric) {
-    const matches: ICombined[] = [];
+    const searchable = bossCounts.concat(activityCounts).concat(skillCounts);
 
-    bossCounts
-      .concat(activityCounts)
-      .concat(skillCounts)
-      .forEach((item) => {
-        if (item.metric.toLowerCase().includes(props.searchedMetric.toLowerCase())) {
-          matches.push(item);
-        }
-        // TODO: or if an alias matches, ie. 'bandos' should match 'general graardor'
-      });
+    const result = fuzzysort.go(props.searchedMetric.toLowerCase(), searchable, {
+      keys: ["metric.name", (obj) => obj.metric.aliases.join()],
+      threshold: 0.25,
+    });
 
-    if (matches.length === 0) {
+    if (result.length === 0) {
       return <Text>No Results.</Text>;
     }
 
-    return <CombinedCountGroup combinedCounts={matches} />;
+    return <CombinedCountGroup combinedCounts={result.map((r) => r.obj)} />;
   }
 
   return (

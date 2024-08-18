@@ -1,5 +1,8 @@
 export interface ICombined {
-  metric: string;
+  metric: {
+    name: string;
+    aliases: string[];
+  };
   playerData: {
     username: string;
     count: number;

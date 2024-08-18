@@ -8,3 +8,10 @@ export const HIDDEN_ACTIVITIES: string[] = [
   "Bounty Hunter (Legacy) - Hunter",
   "Bounty Hunter (Legacy) - Rogue",
 ];
+
+/** Aliases for searching a metric */
+export const ALIASES: Record<string, string[]> = {
+  "General Graardor": ["Bandos"],
+  "Chambers of Xeric": ["Cox"],
+  "Chambers of Xeric: Challenge Mode": ["Cox"],
+};
