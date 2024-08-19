@@ -1,11 +1,11 @@
-import { Button, Flex, Link, VStack } from "@chakra-ui/react";
+import { Flex, Link, VStack } from "@chakra-ui/react";
 import { PlayerTotals } from "./PlayerTotals";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { IPlayerDetails } from "../types";
 import { useState } from "react";
 import { SearchBar } from "./SearchBar";
 import { SortMethod } from "../enums";
-import { SortMenu } from "./SortMenu";
+import { SettingsMenu } from "./SettingsMenu";
 
 interface IHomePageProps {
   players: IPlayerDetails[];
@@ -18,10 +18,13 @@ export const HomePage = (props: IHomePageProps) => {
 
   return (
     <VStack gap={5} padding={3}>
-      <Button onClick={props.setIsEdit}>Edit</Button>
       <Flex gap={1} w="100%">
         <SearchBar value={searchedMetric} onChange={setSearchedMetric} />
-        <SortMenu value={sortMethod} onChange={setSortMethod} />
+        <SettingsMenu
+          sortMethod={sortMethod}
+          onSortMethodChange={setSortMethod}
+          onChangeUsernamesClick={props.setIsEdit}
+        />
       </Flex>
       <PlayerTotals players={props.players} searchedMetric={searchedMetric} sortMethod={sortMethod} />
       <Link href="https://github.com/mbrinkl/gim_stats" isExternal>

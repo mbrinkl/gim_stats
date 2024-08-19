@@ -1,4 +1,4 @@
-import { ALIASES } from "./config";
+import { ALIASES, HIDDEN_ACTIVITIES } from "./config";
 import { ICombined } from "./types/ICombined";
 import { IActivity, IPlayerDetails, ISkill } from "./types";
 import { SortMethod } from "./enums";
@@ -50,6 +50,9 @@ export const combineActivityScore = (players: IPlayerDetails[]) => {
   const combined: ICombined[] = [];
   players.forEach((player) => {
     player.activities.forEach((activity) => {
+      if (HIDDEN_ACTIVITIES.includes(activity.name)) {
+        return;
+      }
       const index = combined.map((s) => s.metric.name).indexOf(activity.name);
       if (index === -1) {
         combined.push({

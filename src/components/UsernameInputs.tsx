@@ -1,5 +1,5 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Button, Container, Flex, FormControl, FormHelperText, IconButton, Input } from "@chakra-ui/react";
+import { Button, Container, Flex, FormControl, FormHelperText, IconButton, Input, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES, USERNAME_REGEX } from "../config";
 
@@ -29,6 +29,7 @@ const ZzInput = (props: { value: string; onChange: (value: string) => void; onDe
 
 export const UsernameInputs = (props: { usernames: string[]; onSubmit: (usernames: string[]) => void }) => {
   const [usernames, setUsernames] = useState(props.usernames);
+  const [error, setError] = useState("");
 
   const onUsernameChange = (value: string, index: number) => {
     setUsernames((prev) => prev.map((u, i) => (i === index ? value : u)));
@@ -46,8 +47,15 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
     }
   };
 
-  const onSubmit = () => {
-    props.onSubmit(usernames);
+  const onSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    const hasDuplicates = new Set(usernames).size !== usernames.length;
+    if (hasDuplicates) {
+      setError("duplicates");
+    } else {
+      setError("");
+      props.onSubmit(usernames);
+    }
   };
 
   const isAddDisabled: boolean = usernames.length === MAX_NUM_USERNAMES;
@@ -65,6 +73,7 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
               onDelete={() => onDeleteClick(index)}
             />
           ))}
+          <Text color="red">{error}</Text>
         </Flex>
         <Flex justify="space-between">
           <Button leftIcon={<AddIcon />} onClick={onAddClick} isDisabled={isAddDisabled} colorScheme="blue">
