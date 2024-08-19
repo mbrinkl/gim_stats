@@ -80,7 +80,15 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
             onDelete={() => onDeleteClick(index)}
           />
         ))}
-        <Button leftIcon={<AddIcon />} onClick={onAddClick} isDisabled={isAddDisabled} colorScheme="green" tabIndex={0}>
+        <Button
+          leftIcon={<AddIcon />}
+          onClick={onAddClick}
+          isDisabled={isAddDisabled}
+          colorScheme="green"
+          backgroundColor="green.500"
+          color="white"
+          tabIndex={0}
+        >
           Add Username
         </Button>{" "}
         <Text color="red">{error}</Text>
@@ -89,7 +97,7 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
         <Link as={RouterLink} to="/" color="red">
           Cancel
         </Link>
-        <Button type="submit" isDisabled={isSubmitDisabled} colorScheme="blue">
+        <Button type="submit" isDisabled={isSubmitDisabled} colorScheme="blue" backgroundColor="blue.500" color="white">
           Done
         </Button>
       </Flex>

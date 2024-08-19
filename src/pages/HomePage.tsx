@@ -1,4 +1,4 @@
-import { Flex, VStack } from "@chakra-ui/react";
+import { Button, Flex, Link, VStack } from "@chakra-ui/react";
 import { PlayerTotals } from "../components/PlayerTotals";
 import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
@@ -7,6 +7,7 @@ import { SettingsMenu } from "../components/SettingsMenu";
 import { useFetchPlayerQueries } from "../api/fetchPlayer";
 import { QueryStatusBar } from "../components/QueryStatusBar";
 import { useSettingsContext } from "../context";
+import { Link as RouterLink } from "react-router-dom";
 
 export const HomePage = () => {
   const { usernames } = useSettingsContext();
@@ -16,14 +17,34 @@ export const HomePage = () => {
   const playerQueries = useFetchPlayerQueries(usernames);
 
   if (!playerQueries.every((query) => query.data)) {
-    return <QueryStatusBar queries={playerQueries} usernames={usernames} />;
+    const retryFailedQueries = () => {
+      playerQueries.forEach((query) => {
+        if (query.isError) {
+          query.refetch();
+        }
+      });
+    };
+    const canRetry: boolean =
+      playerQueries.some((query) => query.isError) && playerQueries.every((query) => query.isFetched);
+
+    return (
+      <VStack>
+        <QueryStatusBar queries={playerQueries} usernames={usernames} />
+        <Flex align="center" gap="1rem">
+          <Link as={RouterLink} to="/usernames">
+            Change Usernames
+          </Link>
+          {canRetry && <Button onClick={retryFailedQueries}>Retry</Button>}
+        </Flex>
+      </VStack>
+    );
   }
 
   const players = playerQueries.map((query) => query.data!);
 
   return (
-    <VStack gap={5} padding={3}>
-      <Flex gap={1} w="100%">
+    <VStack gap="1rem">
+      <Flex gap="1rem" w="100%">
         <SearchBar value={searchedMetric} onChange={setSearchedMetric} />
         <SettingsMenu sortMethod={sortMethod} onSortMethodChange={setSortMethod} />
       </Flex>

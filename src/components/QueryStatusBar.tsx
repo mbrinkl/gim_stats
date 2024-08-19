@@ -13,7 +13,7 @@ export const QueryStatusBar = (props: IQueryStatusBarProps) => {
       key={props.usernames[index]}
       username={props.usernames[index]}
       isLoading={query.isLoading}
-      isError={query.isError}
+      error={query.error}
     />
   ));
 };
