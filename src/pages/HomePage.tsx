@@ -1,6 +1,5 @@
-import { Flex, Link, VStack } from "@chakra-ui/react";
+import { Flex, VStack } from "@chakra-ui/react";
 import { PlayerTotals } from "../components/PlayerTotals";
-import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { SortMethod } from "../enums";
@@ -29,9 +28,6 @@ export const HomePage = () => {
         <SettingsMenu sortMethod={sortMethod} onSortMethodChange={setSortMethod} />
       </Flex>
       <PlayerTotals players={players} searchedMetric={searchedMetric} sortMethod={sortMethod} />
-      <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
-        Source <ExternalLinkIcon mx="2px" />
-      </Link>
     </VStack>
   );
 };

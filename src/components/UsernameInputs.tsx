@@ -1,7 +1,8 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Button, Container, Flex, FormControl, FormHelperText, IconButton, Input, Text } from "@chakra-ui/react";
+import { Button, Flex, FormControl, FormHelperText, IconButton, Input, Link, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES, USERNAME_REGEX } from "../config";
+import { Link as RouterLink } from "react-router-dom";
 
 const ZzInput = (props: { value: string; onChange: (value: string) => void; onDelete: () => void }) => {
   const [error, setError] = useState("");
@@ -22,7 +23,14 @@ const ZzInput = (props: { value: string; onChange: (value: string) => void; onDe
         <Input value={props.value} onChange={onChange} isRequired maxLength={12} />
         {error && <FormHelperText color="red">{error}</FormHelperText>}
       </FormControl>
-      <IconButton aria-label="delete" icon={<DeleteIcon />} onClick={props.onDelete} colorScheme="red" />
+      <IconButton
+        aria-label="delete"
+        icon={<DeleteIcon />}
+        onClick={props.onDelete}
+        colorScheme="red"
+        color="white"
+        backgroundColor="red.500"
+      />
     </Flex>
   );
 };
@@ -62,28 +70,29 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
   const isSubmitDisabled: boolean = usernames.some((u) => !u || !USERNAME_REGEX.test(u));
 
   return (
-    <Container>
-      <form onSubmit={onSubmit}>
-        <Flex direction="column" gap="1rem">
-          {usernames.map((u, index) => (
-            <ZzInput
-              key={index}
-              value={u}
-              onChange={(value) => onUsernameChange(value, index)}
-              onDelete={() => onDeleteClick(index)}
-            />
-          ))}
-          <Text color="red">{error}</Text>
-        </Flex>
-        <Flex justify="space-between">
-          <Button leftIcon={<AddIcon />} onClick={onAddClick} isDisabled={isAddDisabled} colorScheme="blue">
-            Add Username
-          </Button>
-          <Button type="submit" isDisabled={isSubmitDisabled} colorScheme="green">
-            Done
-          </Button>
-        </Flex>
-      </form>
-    </Container>
+    <form onSubmit={onSubmit}>
+      <Flex direction="column" gap="1rem">
+        {usernames.map((u, index) => (
+          <ZzInput
+            key={index}
+            value={u}
+            onChange={(value) => onUsernameChange(value, index)}
+            onDelete={() => onDeleteClick(index)}
+          />
+        ))}
+        <Button leftIcon={<AddIcon />} onClick={onAddClick} isDisabled={isAddDisabled} colorScheme="green" tabIndex={0}>
+          Add Username
+        </Button>{" "}
+        <Text color="red">{error}</Text>
+      </Flex>
+      <Flex justify="space-between" align="center">
+        <Link as={RouterLink} to="/" color="red">
+          Cancel
+        </Link>
+        <Button type="submit" isDisabled={isSubmitDisabled} colorScheme="blue">
+          Done
+        </Button>
+      </Flex>
+    </form>
   );
 };
