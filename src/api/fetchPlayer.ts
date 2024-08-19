@@ -1,5 +1,4 @@
 import { useQueries } from "@tanstack/react-query";
-import { GROUP_USERNAMES } from "../config";
 import { API_IPlayerDetails, IPlayerDetails } from "../types";
 import { normalizeCount } from "../util";
 
@@ -22,9 +21,9 @@ const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
   return transformResponse(data, username);
 };
 
-export const useFetchPlayerQueries = () =>
+export const useFetchPlayerQueries = (usernames: string[]) =>
   useQueries({
-    queries: GROUP_USERNAMES.map((username) => {
+    queries: usernames.map((username) => {
       return {
         queryKey: ["details", username],
         queryFn: () => fetchPlayer(username),

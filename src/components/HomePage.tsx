@@ -1,4 +1,4 @@
-import { Flex, Link, VStack } from "@chakra-ui/react";
+import { Button, Flex, Link, VStack } from "@chakra-ui/react";
 import { PlayerTotals } from "./PlayerTotals";
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { IPlayerDetails } from "../types";
@@ -9,6 +9,7 @@ import { SortMenu } from "./SortMenu";
 
 interface IHomePageProps {
   players: IPlayerDetails[];
+  setIsEdit: () => void;
 }
 
 export const HomePage = (props: IHomePageProps) => {
@@ -17,6 +18,7 @@ export const HomePage = (props: IHomePageProps) => {
 
   return (
     <VStack gap={5} padding={3}>
+      <Button onClick={props.setIsEdit}>Edit</Button>
       <Flex gap={1} w="100%">
         <SearchBar value={searchedMetric} onChange={setSearchedMetric} />
         <SortMenu value={sortMethod} onChange={setSortMethod} />

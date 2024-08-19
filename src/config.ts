@@ -1,13 +1,4 @@
-export const GROUP_USERNAMES: string[] = ["v_trajan_v", "v_aurelius_v", "v_hadrian_v", "v_nerva_v"];
-
-export const HIDDEN_ACTIVITIES: string[] = [
-  "League Points",
-  "Deadman Points",
-  "Bounty Hunter - Hunter",
-  "Bounty Hunter - Rogue",
-  "Bounty Hunter (Legacy) - Hunter",
-  "Bounty Hunter (Legacy) - Rogue",
-];
+export const DEFAULT_USERNAMES: string[] = ["v_trajan_v", "v_aurelius_v", "v_hadrian_v", "v_nerva_v"];
 
 /**
  * Aliases used when searching a metric
@@ -17,3 +8,8 @@ export const HIDDEN_ACTIVITIES: string[] = [
 export const ALIASES: Record<string, string[]> = {
   "General Graardor": ["Bandos"],
 };
+
+export const MIN_NUM_USERNAMES: number = 2;
+export const MAX_NUM_USERNAMES: number = 10;
+
+export const USERNAME_REGEX: RegExp = /^[a-zA-Z0-9_.-]*$/;
