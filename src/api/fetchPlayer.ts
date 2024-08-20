@@ -1,4 +1,4 @@
-import { UseQueryOptions, useQueries } from "@tanstack/react-query";
+import { EnsureQueryDataOptions, UseQueryOptions, useQueries } from "@tanstack/react-query";
 import { API_IPlayerDetails, IPlayerDetails } from "../types";
 import { normalizeCount } from "../util";
 
@@ -15,7 +15,7 @@ const transformResponse = (playerDetails: API_IPlayerDetails, username: string):
   };
 };
 
-const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
+export const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
   const url = "https://secure.runescape.com/m=hiscore_oldschool/index_lite.json?player=" + username;
   const proxiedUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
   const res = await fetch(proxiedUrl);
@@ -28,15 +28,7 @@ const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
   return transformResponse(data, username);
 };
 
-export const useFetchPlayerQueries = (usernames: string[]) =>
-  useQueries({
-    queries: usernames.map((username): UseQueryOptions<IPlayerDetails> => {
-      return {
-        queryKey: ["details", username],
-        queryFn: () => fetchPlayer(username),
-        retry: (retryCount, error) => {
-          return retryCount < 3 && error.message !== notFoundMessage;
-        },
-      };
-    }),
-  });
+export const fetchPlayerQueryOpts = (username: string): EnsureQueryDataOptions<IPlayerDetails> => ({
+  queryKey: ["details", username],
+  queryFn: () => fetchPlayer(username),
+});

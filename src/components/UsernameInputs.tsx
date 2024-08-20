@@ -2,7 +2,7 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Button, Flex, FormControl, FormHelperText, IconButton, Input, Link, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES, USERNAME_REGEX } from "../config";
-import { Link as RouterLink } from "react-router-dom";
+import { Link as RouterLink } from "@tanstack/react-router";
 
 const ZzInput = (props: { value: string; onChange: (value: string) => void; onDelete: () => void }) => {
   const [error, setError] = useState("");

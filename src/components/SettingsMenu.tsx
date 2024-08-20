@@ -10,7 +10,7 @@ import {
   MenuOptionGroup,
 } from "@chakra-ui/react";
 import { SortMethod } from "../enums";
-import { useNavigate } from "react-router-dom";
+import { useNavigate } from "@tanstack/react-router";
 
 interface ISettingsMenuProps {
   sortMethod: SortMethod;
@@ -25,7 +25,7 @@ export const SettingsMenu = (props: ISettingsMenuProps) => {
   };
 
   const onChangeUsernamesClick = () => {
-    navigate("/usernames");
+    navigate({ to: "/usernames", search: ({ usernames }) => ({ usernames }) });
   };
 
   return (
