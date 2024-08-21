@@ -1,5 +1,30 @@
 import * as z from "zod";
-import { USERNAME_REGEX } from "../config";
+import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES, USERNAME_REGEX } from "../config";
+
+export const usernameSearchSchema = z
+  .array(z.string().regex(USERNAME_REGEX))
+  .min(MIN_NUM_USERNAMES)
+  .max(MAX_NUM_USERNAMES)
+  .superRefine((playerNames, ctx) => {
+    const uniqueValues = new Map<string, number>();
+    playerNames.forEach((item, index) => {
+      const firstAppearanceIndex = uniqueValues.get(item);
+      if (firstAppearanceIndex !== undefined) {
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `No duplicates allowed.`,
+          path: [index],
+        });
+        ctx.addIssue({
+          code: z.ZodIssueCode.custom,
+          message: `No duplicates allowed.`,
+          path: [firstAppearanceIndex],
+        });
+        return;
+      }
+      uniqueValues.set(item, index);
+    });
+  });
 
 export const editFormSchema = z.object({
   // using 'playerNames' instead of 'usernames' to avoid password managers attempting to autofill

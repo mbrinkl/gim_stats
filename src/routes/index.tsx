@@ -12,7 +12,6 @@ import {
   useNavigate,
   useRouter,
 } from "@tanstack/react-router";
-import { DEFAULT_USERNAMES } from "../config";
 import { IPlayerDetails } from "../types";
 
 const HomePage = () => {
@@ -54,19 +53,8 @@ const HomePageError = (props: ErrorComponentProps) => {
   );
 };
 
-interface IRouteSearch {
-  usernames: string[];
-  sort: SortMethod;
-}
-
 export const Route = createFileRoute("/")({
   component: HomePage,
-  validateSearch: (search: Record<string, unknown>): IRouteSearch => {
-    return {
-      sort: (search.sort as SortMethod) || SortMethod.DEFAULT,
-      usernames: (search.usernames as string[]) || DEFAULT_USERNAMES,
-    };
-  },
   loaderDeps: ({ search: { usernames } }) => ({ usernames }),
   loader: async ({ context: { queryClient }, deps: { usernames } }) => {
     const queries = usernames.map((u) => queryClient.ensureQueryData(fetchPlayerQueryOpts(u)));

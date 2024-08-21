@@ -1,5 +1,4 @@
 import { EditUsernamesForm } from "../components/EditUsernamesForm";
-import { DEFAULT_USERNAMES } from "../config";
 import { Center, Text } from "@chakra-ui/react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SortMethod } from "../enums";
@@ -22,15 +21,6 @@ const EditPage = () => {
   );
 };
 
-interface IRouteSearch {
-  usernames: string[];
-}
-
 export const Route = createFileRoute("/edit")({
   component: EditPage,
-  validateSearch: (search: Record<string, unknown>): IRouteSearch => {
-    return {
-      usernames: (search.usernames as string[]) || DEFAULT_USERNAMES,
-    };
-  },
 });
