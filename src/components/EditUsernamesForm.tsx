@@ -1,5 +1,5 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Alert, AlertIcon, Button, Flex, FormControl, FormHelperText, IconButton, Input } from "@chakra-ui/react";
+import { Button, Flex, FormControl, FormHelperText, IconButton, Input } from "@chakra-ui/react";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../config";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -45,9 +45,6 @@ export const EditUsernamesForm = (props: IEditUsernamesFormProps) => {
     props.onSubmit(playerNames.map((u) => u.value));
   };
 
-  const isAddDisabled: boolean = fields.length === MAX_NUM_USERNAMES;
-  const isSubmitDisabled: boolean = !isValid;
-
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
       <Flex direction="column" justifyContent="center" gap="1rem">
@@ -64,10 +61,10 @@ export const EditUsernamesForm = (props: IEditUsernamesFormProps) => {
                   onChange: () => {
                     // Trigger non-empty fields to revalidate duplicate values
                     const nonEmptyFieldIndicies = fields
-                      .map((playerName, index) => (playerName.value ? `playerNames.${index}.value` : null))
+                      .map((playerName, index) => (playerName.value ? `playerNames.${index}` : null))
                       .filter((v) => v !== null);
 
-                    trigger(nonEmptyFieldIndicies as `playerNames.${number}.value`[]);
+                    trigger(nonEmptyFieldIndicies as `playerNames.${number}`[]);
                   },
                 })}
               />
@@ -78,20 +75,16 @@ export const EditUsernamesForm = (props: IEditUsernamesFormProps) => {
             <IconButton aria-label="delete" icon={<DeleteIcon />} onClick={() => onDeleteClick(index)} />
           </Flex>
         ))}
-        <Button leftIcon={<AddIcon />} onClick={onAddClick} isDisabled={isAddDisabled} colorScheme="green" tabIndex={0}>
-          Add Username
-        </Button>
-        {errors.playerNames?.root?.message && (
-          <Alert status="error">
-            <AlertIcon />
-            {errors.playerNames.root.message}
-          </Alert>
+        {fields.length < MAX_NUM_USERNAMES && (
+          <Button leftIcon={<AddIcon />} onClick={onAddClick} colorScheme="green" tabIndex={0}>
+            Add Username
+          </Button>
         )}
         <Flex justify="space-between" align="center">
           <Button as={RouterLink} to="/" search={true} colorScheme="red">
             Cancel
           </Button>
-          <Button type="submit" isDisabled={isSubmitDisabled} colorScheme="blue">
+          <Button type="submit" isDisabled={!isValid} colorScheme="blue">
             Done
           </Button>
         </Flex>
