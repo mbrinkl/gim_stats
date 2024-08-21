@@ -1,3 +1,3 @@
 export interface IRouteSearch {
-  usernames?: string[];
+  usernames: string[];
 }

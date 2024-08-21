@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
 import { Container, Flex, Link } from "@chakra-ui/react";
 import { QueryClient } from "@tanstack/react-query";
-import { Outlet, createRootRoute, createRootRouteWithContext } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 
 const Layout = () => {
   return (

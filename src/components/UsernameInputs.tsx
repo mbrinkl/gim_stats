@@ -20,7 +20,15 @@ const ZzInput = (props: { value: string; onChange: (value: string) => void; onDe
   return (
     <Flex gap="1rem" alignItems="center" justify="center">
       <FormControl>
-        <Input value={props.value} onChange={onChange} isRequired maxLength={12} />
+        <Input
+          value={props.value}
+          onChange={onChange}
+          maxLength={12}
+          required
+          autoComplete="off"
+          autoCorrect="off"
+          autoCapitalize="off"
+        />
         {error && <FormHelperText color="red">{error}</FormHelperText>}
       </FormControl>
       <IconButton
