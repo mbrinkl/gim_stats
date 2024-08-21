@@ -2,7 +2,7 @@ import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
 import { Button, Flex, FormControl, FormHelperText, IconButton, Input, Link, Text } from "@chakra-ui/react";
 import { useState } from "react";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES, USERNAME_REGEX } from "../config";
-import { Link as RouterLink } from "@tanstack/react-router";
+import { Link as RouterLink, useMatchRoute } from "@tanstack/react-router";
 
 const ZzInput = (props: { value: string; onChange: (value: string) => void; onDelete: () => void }) => {
   const [error, setError] = useState("");
@@ -46,6 +46,7 @@ const ZzInput = (props: { value: string; onChange: (value: string) => void; onDe
 export const UsernameInputs = (props: { usernames: string[]; onSubmit: (usernames: string[]) => void }) => {
   const [usernames, setUsernames] = useState(props.usernames);
   const [error, setError] = useState("");
+  const matchRoute = useMatchRoute();
 
   const onUsernameChange = (value: string, index: number) => {
     setUsernames((prev) => prev.map((u, i) => (i === index ? value : u)));
@@ -76,6 +77,7 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
 
   const isAddDisabled: boolean = usernames.length === MAX_NUM_USERNAMES;
   const isSubmitDisabled: boolean = usernames.some((u) => !u || !USERNAME_REGEX.test(u));
+  const isNavigating = !!matchRoute({ to: "/", pending: true });
 
   return (
     <form onSubmit={onSubmit}>
@@ -105,7 +107,14 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
         <Link as={RouterLink} to="/" search={true} color="red">
           Cancel
         </Link>
-        <Button type="submit" isDisabled={isSubmitDisabled} colorScheme="blue" backgroundColor="blue.500" color="white">
+        <Button
+          type="submit"
+          isDisabled={isSubmitDisabled}
+          colorScheme="blue"
+          backgroundColor="blue.500"
+          color="white"
+          isLoading={isNavigating}
+        >
           Done
         </Button>
       </Flex>

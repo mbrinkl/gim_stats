@@ -1,6 +1,6 @@
 import { UsernameInputs } from "../components/UsernameInputs";
 import { DEFAULT_USERNAMES } from "../config";
-import { Text, VStack } from "@chakra-ui/react";
+import { Center, Text } from "@chakra-ui/react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { IRouteSearch } from "../types";
 
@@ -13,10 +13,10 @@ const UsernamesPage = () => {
   };
 
   return (
-    <VStack>
+    <Center height="100%" flexDirection="column" gap="1rem">
       <Text fontSize="xl">Usernames</Text>
       <UsernameInputs usernames={usernames} onSubmit={onSubmit} />
-    </VStack>
+    </Center>
   );
 };
 

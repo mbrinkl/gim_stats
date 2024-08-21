@@ -59,6 +59,5 @@ export const Route = createFileRoute("/")({
     return results.map((r) => (r as PromiseFulfilledResult<IPlayerDetails>).value);
   },
   pendingComponent: () => <div>Loading...</div>,
-  pendingMs: 0,
   errorComponent: HomePageError,
 });
