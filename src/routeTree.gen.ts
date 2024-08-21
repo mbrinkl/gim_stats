@@ -11,13 +11,13 @@
 // Import Routes
 
 import { Route as rootRoute } from './routes/__root'
-import { Route as UsernamesImport } from './routes/usernames'
+import { Route as EditImport } from './routes/edit'
 import { Route as IndexImport } from './routes/index'
 
 // Create/Update Routes
 
-const UsernamesRoute = UsernamesImport.update({
-  path: '/usernames',
+const EditRoute = EditImport.update({
+  path: '/edit',
   getParentRoute: () => rootRoute,
 } as any)
 
@@ -37,11 +37,11 @@ declare module '@tanstack/react-router' {
       preLoaderRoute: typeof IndexImport
       parentRoute: typeof rootRoute
     }
-    '/usernames': {
-      id: '/usernames'
-      path: '/usernames'
-      fullPath: '/usernames'
-      preLoaderRoute: typeof UsernamesImport
+    '/edit': {
+      id: '/edit'
+      path: '/edit'
+      fullPath: '/edit'
+      preLoaderRoute: typeof EditImport
       parentRoute: typeof rootRoute
     }
   }
@@ -49,7 +49,7 @@ declare module '@tanstack/react-router' {
 
 // Create and export the route tree
 
-export const routeTree = rootRoute.addChildren({ IndexRoute, UsernamesRoute })
+export const routeTree = rootRoute.addChildren({ IndexRoute, EditRoute })
 
 /* prettier-ignore-end */
 
@@ -60,14 +60,14 @@ export const routeTree = rootRoute.addChildren({ IndexRoute, UsernamesRoute })
       "filePath": "__root.tsx",
       "children": [
         "/",
-        "/usernames"
+        "/edit"
       ]
     },
     "/": {
       "filePath": "index.tsx"
     },
-    "/usernames": {
-      "filePath": "usernames.tsx"
+    "/edit": {
+      "filePath": "edit.tsx"
     }
   }
 }

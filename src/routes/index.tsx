@@ -5,7 +5,7 @@ import { SearchBar } from "../components/SearchBar";
 import { SortMethod } from "../enums";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { fetchPlayerQueryOpts } from "../api/fetchPlayer";
-import { ErrorComponentProps, Link as RouterLink, createFileRoute } from "@tanstack/react-router";
+import { ErrorComponentProps, Link as RouterLink, createFileRoute, useRouter } from "@tanstack/react-router";
 import { DEFAULT_USERNAMES } from "../config";
 import { IPlayerDetails, IRouteSearch } from "../types";
 
@@ -26,15 +26,17 @@ const HomePage = () => {
 };
 
 const HomePageError = (props: ErrorComponentProps) => {
+  const router = useRouter();
+
   return (
     <div>
-      {props.error.message.split(",").map((err) => (
-        <div>{err}</div>
+      {props.error.message.split(",").map((err, index) => (
+        <div key={index}>{err}</div>
       ))}
-      <Link as={RouterLink} to="/usernames" search={true}>
+      <Link as={RouterLink} to="/edit" search={true}>
         Change Usernames
       </Link>
-      <button onClick={props.reset}>retry</button>
+      <button onClick={router.invalidate}>Retry</button>
     </div>
   );
 };
@@ -57,5 +59,6 @@ export const Route = createFileRoute("/")({
     return results.map((r) => (r as PromiseFulfilledResult<IPlayerDetails>).value);
   },
   pendingComponent: () => <div>Loading...</div>,
+  pendingMs: 0,
   errorComponent: HomePageError,
 });

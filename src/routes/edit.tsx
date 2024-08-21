@@ -20,7 +20,7 @@ const UsernamesPage = () => {
   );
 };
 
-export const Route = createFileRoute("/usernames")({
+export const Route = createFileRoute("/edit")({
   component: UsernamesPage,
   validateSearch: (search: Record<string, unknown>): IRouteSearch => {
     return {

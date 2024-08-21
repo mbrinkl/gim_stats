@@ -102,7 +102,7 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
         <Text color="red">{error}</Text>
       </Flex>
       <Flex justify="space-between" align="center">
-        <Link as={RouterLink} to="/" color="red">
+        <Link as={RouterLink} to="/" search={true} color="red">
           Cancel
         </Link>
         <Button type="submit" isDisabled={isSubmitDisabled} colorScheme="blue" backgroundColor="blue.500" color="white">
