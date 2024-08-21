@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { SortMethod } from "../enums";
 import { SettingsMenu } from "../components/SettingsMenu";
-import { fetchPlayerQueryOpts } from "../api/fetchPlayer";
+import { fetchPlayerQueryOpts } from "../api";
 import {
   ErrorComponentProps,
   Link as RouterLink,
@@ -78,5 +78,6 @@ export const Route = createFileRoute("/")({
     return results.map((r) => (r as PromiseFulfilledResult<IPlayerDetails>).value);
   },
   pendingComponent: () => <div>Loading...</div>,
+  pendingMs: 0,
   errorComponent: HomePageError,
 });

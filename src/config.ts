@@ -21,4 +21,4 @@ export const ALIASES: Record<string, string[]> = {
 export const MIN_NUM_USERNAMES: number = 2;
 export const MAX_NUM_USERNAMES: number = 10;
 
-export const USERNAME_REGEX: RegExp = /^[a-zA-Z0-9_ -]*$/;
+export const USERNAME_REGEX: RegExp = /^[a-zA-Z0-9](([a-zA-Z0-9_ -]{0,10})[a-zA-Z0-9])?$/;

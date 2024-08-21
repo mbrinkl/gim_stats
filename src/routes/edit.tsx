@@ -4,7 +4,7 @@ import { Center, Text } from "@chakra-ui/react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 import { SortMethod } from "../enums";
 
-const UsernamesPage = () => {
+const EditPage = () => {
   const { usernames } = Route.useSearch();
   const navigate = useNavigate();
 
@@ -25,7 +25,7 @@ interface IRouteSearch {
 }
 
 export const Route = createFileRoute("/edit")({
-  component: UsernamesPage,
+  component: EditPage,
   validateSearch: (search: Record<string, unknown>): IRouteSearch => {
     return {
       usernames: (search.usernames as string[]) || DEFAULT_USERNAMES,

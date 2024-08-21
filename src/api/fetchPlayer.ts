@@ -13,7 +13,7 @@ const transformResponse = (playerDetails: API_IPlayerDetails, username: string):
   };
 };
 
-export const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
+const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
   const url = "https://secure.runescape.com/m=hiscore_oldschool/index_lite.json?player=" + username;
   const proxiedUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
   const res = await fetch(proxiedUrl);
