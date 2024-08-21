@@ -1,4 +1,4 @@
-import { Flex, Link, VStack } from "@chakra-ui/react";
+import { Button, Center, Flex, Link, Text, VStack } from "@chakra-ui/react";
 import { PlayerTotals } from "../components/PlayerTotals";
 import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
@@ -29,15 +29,17 @@ const HomePageError = (props: ErrorComponentProps) => {
   const router = useRouter();
 
   return (
-    <div>
+    <Center h="100%" flexDirection="column" gap="2rem">
       {props.error.message.split(",").map((err, index) => (
-        <div key={index}>{err}</div>
+        <Text key={index}>{err}</Text>
       ))}
-      <Link as={RouterLink} to="/edit" search={true}>
-        Change Usernames
-      </Link>
-      <button onClick={router.invalidate}>Retry</button>
-    </div>
+      <Flex alignItems="center" gap="2rem">
+        <Link color="teal.500" as={RouterLink} to="/edit" search={true}>
+          Change Usernames
+        </Link>
+        <Button onClick={router.invalidate}>Retry</Button>
+      </Flex>
+    </Center>
   );
 };
 

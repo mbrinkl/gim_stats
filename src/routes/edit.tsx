@@ -13,7 +13,7 @@ const UsernamesPage = () => {
   };
 
   return (
-    <Center height="100%" flexDirection="column" gap="1rem">
+    <Center h="100%" flexDirection="column" gap="1rem">
       <Text fontSize="xl">Usernames</Text>
       <UsernameInputs usernames={usernames} onSubmit={onSubmit} />
     </Center>
