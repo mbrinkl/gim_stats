@@ -2,14 +2,14 @@ import { UsernameInputs } from "../components/UsernameInputs";
 import { DEFAULT_USERNAMES } from "../config";
 import { Center, Text } from "@chakra-ui/react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { IRouteSearch } from "../types";
+import { SortMethod } from "../enums";
 
 const UsernamesPage = () => {
   const { usernames } = Route.useSearch();
   const navigate = useNavigate();
 
   const onSubmit = (values: string[]) => {
-    navigate({ to: "/", search: { usernames: values } });
+    navigate({ to: "/", search: (s) => ({ ...s, usernames: values, sort: s.sort || SortMethod.DEFAULT }) });
   };
 
   return (
@@ -19,6 +19,10 @@ const UsernamesPage = () => {
     </Center>
   );
 };
+
+interface IRouteSearch {
+  usernames: string[];
+}
 
 export const Route = createFileRoute("/edit")({
   component: UsernamesPage,

@@ -5,14 +5,25 @@ import { SearchBar } from "../components/SearchBar";
 import { SortMethod } from "../enums";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { fetchPlayerQueryOpts } from "../api/fetchPlayer";
-import { ErrorComponentProps, Link as RouterLink, createFileRoute, useRouter } from "@tanstack/react-router";
+import {
+  ErrorComponentProps,
+  Link as RouterLink,
+  createFileRoute,
+  useNavigate,
+  useRouter,
+} from "@tanstack/react-router";
 import { DEFAULT_USERNAMES } from "../config";
-import { IPlayerDetails, IRouteSearch } from "../types";
+import { IPlayerDetails } from "../types";
 
 const HomePage = () => {
-  const players = Route.useLoaderData();
   const [searchedMetric, setSearchedMetric] = useState("");
-  const [sortMethod, setSortMethod] = useState(SortMethod.DEFAULT);
+  const players = Route.useLoaderData();
+  const { sort: sortMethod } = Route.useSearch();
+  const navigate = useNavigate();
+
+  const setSortMethod = (value: SortMethod) => {
+    navigate({ search: (prev) => ({ ...prev, sort: value }) });
+  };
 
   return (
     <VStack gap="1rem">
@@ -43,10 +54,16 @@ const HomePageError = (props: ErrorComponentProps) => {
   );
 };
 
+interface IRouteSearch {
+  usernames: string[];
+  sort: SortMethod;
+}
+
 export const Route = createFileRoute("/")({
   component: HomePage,
   validateSearch: (search: Record<string, unknown>): IRouteSearch => {
     return {
+      sort: (search.sort as SortMethod) || SortMethod.DEFAULT,
       usernames: (search.usernames as string[]) || DEFAULT_USERNAMES,
     };
   },
