@@ -5,9 +5,13 @@ import { Link as RouterLink } from "@tanstack/react-router";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editFormSchema, EditFormSchema } from "../types";
-import { useEffect } from "react";
 
-export const UsernameInputs = (props: { usernames: string[]; onSubmit: (usernames: string[]) => void }) => {
+interface IEditUsernamesFormProps {
+  usernames: string[];
+  onSubmit: (usernames: string[]) => void;
+}
+
+export const EditUsernamesForm = (props: IEditUsernamesFormProps) => {
   const {
     handleSubmit,
     register,
@@ -17,17 +21,13 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
   } = useForm<EditFormSchema>({
     resolver: zodResolver(editFormSchema),
     defaultValues: { playerNames: props.usernames.map((u) => ({ value: u })) },
+    mode: "onChange",
   });
 
   const { fields, append, remove, update } = useFieldArray<EditFormSchema>({
     control,
     name: "playerNames",
   });
-
-  // trigger validation on load for default values
-  useEffect(() => {
-    trigger("playerNames");
-  }, [trigger]);
 
   const onAddClick = () => {
     append({ value: "" });
@@ -49,8 +49,8 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
   const isSubmitDisabled: boolean = !isValid;
 
   return (
-    <form onSubmit={handleSubmit(onSubmit)}>
-      <Flex direction="column" gap="1rem">
+    <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
+      <Flex direction="column" justifyContent="center" gap="1rem">
         {fields.map((u, index) => (
           <Flex key={u.id} gap="1rem" alignItems="start" justify="center">
             <FormControl>
@@ -61,8 +61,14 @@ export const UsernameInputs = (props: { usernames: string[]; onSubmit: (username
                 autoCorrect="off"
                 autoCapitalize="off"
                 {...register(`playerNames.${index}.value`, {
-                  // trigger revalidation for duplicate usernames errors
-                  onChange: () => trigger("playerNames"),
+                  onChange: () => {
+                    // Trigger non-empty fields to revalidate duplicate values
+                    const nonEmptyFieldIndicies = fields
+                      .map((playerName, index) => (playerName.value ? `playerNames.${index}.value` : null))
+                      .filter((v) => v !== null);
+
+                    trigger(nonEmptyFieldIndicies as `playerNames.${number}.value`[]);
+                  },
                 })}
               />
               {errors.playerNames?.[index]?.value?.message && (
