@@ -5,10 +5,11 @@ export const usernameSearchSchema = z
   .array(z.string().regex(USERNAME_REGEX))
   .min(MIN_NUM_USERNAMES)
   .max(MAX_NUM_USERNAMES)
-  .superRefine((playerNames, ctx) => {
+  .superRefine((usernames, ctx) => {
     const uniqueValues = new Map<string, number>();
-    playerNames.forEach((item, index) => {
-      const firstAppearanceIndex = uniqueValues.get(item);
+    const values = usernames.map((value) => value.toLowerCase().replace(/-|_/g, " "));
+    values.forEach((value, index) => {
+      const firstAppearanceIndex = uniqueValues.get(value);
       if (firstAppearanceIndex !== undefined) {
         ctx.addIssue({
           code: z.ZodIssueCode.custom,
@@ -22,7 +23,7 @@ export const usernameSearchSchema = z
         });
         return;
       }
-      uniqueValues.set(item, index);
+      uniqueValues.set(value, index);
     });
   });
 
@@ -37,8 +38,9 @@ export const editFormSchema = z.object({
     )
     .superRefine((playerNames, ctx) => {
       const uniqueValues = new Map<string, number>();
-      playerNames.forEach((item, index) => {
-        const firstAppearanceIndex = uniqueValues.get(item.value);
+      const values = playerNames.map((playerName) => playerName.value.toLowerCase().replace(/-|_/g, " "));
+      values.forEach((value, index) => {
+        const firstAppearanceIndex = uniqueValues.get(value);
         if (firstAppearanceIndex !== undefined) {
           ctx.addIssue({
             code: z.ZodIssueCode.custom,
@@ -52,7 +54,7 @@ export const editFormSchema = z.object({
           });
           return;
         }
-        uniqueValues.set(item.value, index);
+        uniqueValues.set(value, index);
       });
     }),
 });
