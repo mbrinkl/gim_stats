@@ -1,4 +1,4 @@
-export const DEFAULT_USERNAMES: string[] = ["v_trajan_v", "v_aurelius_v", "v_hadrian_v", "v_nerva_v"];
+export const DEFAULT_USERNAMES: string[] = ["v_trajan_v", "v_aurelius_v", "v_hadrian_v", "v_nerva_v", "v_pius_v"];
 
 export const HIDDEN_ACTIVITIES: string[] = [
   "League Points",

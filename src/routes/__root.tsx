@@ -58,7 +58,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     const usernameSearchResult = usernameSearchSchema.safeParse(search.usernames);
 
     let error: boolean | undefined;
-    if (!usernameSearchResult.success) {
+    if (search.usernames && !usernameSearchResult.success) {
       error = true;
     }
 

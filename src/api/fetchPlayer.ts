@@ -6,9 +6,13 @@ const transformResponse = (playerDetails: API_IPlayerDetails, username: string):
   return {
     ...playerDetails,
     username,
-    activities: playerDetails.activities.map((x) => ({
-      ...x,
-      score: normalizeCount(x.score),
+    activities: playerDetails.activities.map((activity) => ({
+      ...activity,
+      score: normalizeCount(activity.score),
+    })),
+    skills: playerDetails.skills.map((skill) => ({
+      ...skill,
+      xp: normalizeCount(skill.xp),
     })),
   };
 };
