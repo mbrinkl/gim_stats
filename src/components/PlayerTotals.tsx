@@ -55,9 +55,17 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
     return [splicedBossCounts, activityAndBossCounts, combinedSkills, all];
   }, [props.players]);
 
+  // def cringe but set separate keys for each alias so that only the matched alias
+  // is highlighted - add keys for alias indices equal to the max alias length
+  // to hit all aliases, but this adds unnecessary keys to objects that dont have
+  // the max number of aliases - seems to be negligable in terms of performance
+  const maxNumAliases = useMemo(() => {
+    return Math.max(...allCounts.map((c) => c.metric.aliases.length));
+  }, [allCounts]);
+
   if (props.searchedMetric) {
     const result = fuzzysort.go(props.searchedMetric, allCounts, {
-      keys: ["metric.name", (obj) => obj.metric.aliases.join()],
+      keys: ["metric.name", ...Array.from(Array(maxNumAliases), (_, i) => `metric.aliases.${i}`)],
       threshold: 0.5,
     });
 
@@ -74,18 +82,21 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
       return <Text as="span">{h}</Text>;
     };
 
-    const y = result.map((r1) => ({
-      obj: r1.obj,
-      targ: r1.filter((r2) => !!r2.target),
-      isAlias: r1.findIndex((r2) => !!r2.target) === 1,
-    }));
+    const y = result.map((r1) => {
+      const maxScoreIndex = r1.reduce((iMax, x, i, arr) => (x.score > arr[iMax].score ? i : iMax), 0);
+      return {
+        obj: r1.obj,
+        targ: r1[maxScoreIndex],
+        isAlias: maxScoreIndex > 0,
+      };
+    });
 
     const combinedHighlighted: ICombinedHighlighted[] = y.map((y1) => ({
       ...y1.obj,
       metric: {
         ...y1.obj.metric,
         highlight: {
-          value: getHighlight(y1.targ[0]),
+          value: getHighlight(y1.targ),
           isAlias: y1.isAlias,
         },
       },

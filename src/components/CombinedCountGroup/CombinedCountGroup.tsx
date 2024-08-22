@@ -36,7 +36,7 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
           >
             <Flex justify="space-between" align="center" w="100%">
               <Box>
-                {combined.metric.highlight?.value ? (
+                {combined.metric.highlight ? (
                   combined.metric.highlight.isAlias ? (
                     <>
                       <Text>{combined.metric.name}</Text>
