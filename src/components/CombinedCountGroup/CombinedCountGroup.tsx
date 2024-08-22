@@ -1,7 +1,7 @@
-import { Image, Flex, Stat, StatLabel, StatNumber, StatHelpText } from "@chakra-ui/react";
-import { combineCounts, formatCount, getWomImages } from "../util";
-import { IndividualMetricComparison } from "./IndividualMetricComparison";
-import { ICombined } from "../types";
+import { Image, Flex, Text, VStack, Box } from "@chakra-ui/react";
+import { combineCounts, formatCount, getWomImages } from "../../util";
+import { IndividualMetricComparison } from "../IndividualMetricComparison";
+import { ICombined } from "../../types";
 
 interface ICombinedCountGroupProps {
   combinedCounts: ICombined[];
@@ -13,26 +13,27 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
       {props.combinedCounts.map((combined) => {
         const { backgroundImg, metricImg } = getWomImages(combined.metric.name);
         return (
-          <Flex
+          <VStack
             key={combined.metric.name}
-            gap={3}
             border="1px solid white"
             borderRadius="15px"
-            p={3}
+            p="1rem"
             w="320px"
             align="center"
             backgroundImage={backgroundImg}
             backgroundSize="cover"
           >
-            <Stat key={combined.metric.name}>
-              <StatLabel>{combined.metric.name}</StatLabel>
-              <StatNumber>{formatCount(combineCounts(combined))}</StatNumber>
-              <StatHelpText mb={0} opacity={1}>
-                <Image src={metricImg} />
-              </StatHelpText>
-            </Stat>
+            <Flex justify="space-between" align="center" w="100%">
+              <Box>
+                <Text>{combined.metric.name}</Text>
+                <Text fontSize="2xl" fontWeight="bold">
+                  {formatCount(combineCounts(combined))}
+                </Text>
+              </Box>
+              <Image src={metricImg} boxSize="30px" />
+            </Flex>
             <IndividualMetricComparison combined={combined} />
-          </Flex>
+          </VStack>
         );
       })}
     </Flex>

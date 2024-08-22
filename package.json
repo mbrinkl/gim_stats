@@ -8,7 +8,8 @@
     "build": "tsc && vite build",
     "lint": "eslint .",
     "preview": "vite preview",
-    "test": "vitest"
+    "test": "vitest",
+    "ladle": "ladle serve"
   },
   "dependencies": {
     "@chakra-ui/icons": "^2.1.1",
@@ -26,6 +27,7 @@
     "zod": "^3.23.8"
   },
   "devDependencies": {
+    "@ladle/react": "^4.1.0",
     "@tanstack/router-plugin": "^1.48.6",
     "@testing-library/dom": "^10.4.0",
     "@testing-library/react": "^16.0.0",

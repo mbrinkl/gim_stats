@@ -15,7 +15,7 @@ export const normalizeCount = (count: number): number => {
  * Format a count value into formatted string
  */
 export const formatCount = (count: number): string => {
-  if (count > 100_000) {
+  if (count >= 100_000) {
     const formatted = (Math.floor((count / 1_000_000) * 10) / 10).toFixed(1);
     return formatted + "M";
   }
