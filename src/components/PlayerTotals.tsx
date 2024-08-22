@@ -1,6 +1,6 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
 import { combineActivityScore, combineSkillXP, sort } from "../util";
-import { CombinedCountGroup } from "./CombinedCountGroup";
+import { CombinedCountGroup, ICombinedHighlighted } from "./CombinedCountGroup";
 import { ICombined, IPlayerDetails } from "../types";
 import { useMemo } from "react";
 import { SortMethod } from "../enums";
@@ -65,7 +65,33 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
       return <Text>No Results.</Text>;
     }
 
-    return <CombinedCountGroup combinedCounts={result.map((r) => r.obj)} />;
+    const getHighlight = (resy: Fuzzysort.Result) => {
+      const h = resy.highlight((m, i) => (
+        <Text key={i} as="span" color="red">
+          {m}
+        </Text>
+      ));
+      return <Text as="span">{h}</Text>;
+    };
+
+    const y = result.map((r1) => ({
+      obj: r1.obj,
+      targ: r1.filter((r2) => !!r2.target),
+      isAlias: r1.findIndex((r2) => !!r2.target) === 1,
+    }));
+
+    const combinedHighlighted: ICombinedHighlighted[] = y.map((y1) => ({
+      ...y1.obj,
+      metric: {
+        ...y1.obj.metric,
+        highlight: {
+          value: getHighlight(y1.targ[0]),
+          isAlias: y1.isAlias,
+        },
+      },
+    }));
+
+    return <CombinedCountGroup combinedCounts={combinedHighlighted} />;
   }
 
   return (

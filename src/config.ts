@@ -22,7 +22,7 @@ export const ALIASES: Record<string, string[]> = {
   "Sol Heredit": ["Colosseum"],
   "TzKal-Zuk": ["Inferno"],
   "Lunar Chests": ["Moons of Peril"],
-  "Grotesque Guardis": ["Dusk", "Dawn"],
+  "Grotesque Guardians": ["Dusk", "Dawn"],
 };
 
 export const MIN_NUM_USERNAMES: number = 2;

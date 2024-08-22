@@ -3,8 +3,19 @@ import { combineCounts, formatCount, getWomImages } from "../../util";
 import { IndividualMetricComparison } from "../IndividualMetricComparison";
 import { ICombined } from "../../types";
 
+export interface ICombinedHighlighted extends ICombined {
+  metric: {
+    name: string;
+    highlight?: {
+      value: JSX.Element;
+      isAlias: boolean;
+    };
+    aliases: string[];
+  };
+}
+
 interface ICombinedCountGroupProps {
-  combinedCounts: ICombined[];
+  combinedCounts: ICombinedHighlighted[];
 }
 
 export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
@@ -25,7 +36,18 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
           >
             <Flex justify="space-between" align="center" w="100%">
               <Box>
-                <Text>{combined.metric.name}</Text>
+                {combined.metric.highlight?.value ? (
+                  combined.metric.highlight.isAlias ? (
+                    <>
+                      <Text>{combined.metric.name}</Text>
+                      <Text as="span">({combined.metric.highlight.value})</Text>
+                    </>
+                  ) : (
+                    combined.metric.highlight.value
+                  )
+                ) : (
+                  <Text>{combined.metric.name}</Text>
+                )}
                 <Text fontSize="2xl" fontWeight="bold">
                   {formatCount(combineCounts(combined))}
                 </Text>
