@@ -16,6 +16,13 @@ export const HIDDEN_ACTIVITIES: string[] = [
  * */
 export const ALIASES: Record<string, string[]> = {
   "General Graardor": ["Bandos"],
+  "Commander Zilyana": ["Saradomin"],
+  "K'ril Tsutsaroth": ["Zamorak"],
+  "Kree'Arra": ["Armadyl"],
+  "Sol Heredit": ["Colosseum"],
+  "TzKal-Zuk": ["Inferno"],
+  "Lunar Chests": ["Moons of Peril"],
+  "Grotesque Guardis": ["Dusk", "Dawn"],
 };
 
 export const MIN_NUM_USERNAMES: number = 2;
