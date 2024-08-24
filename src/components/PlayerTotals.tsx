@@ -1,10 +1,11 @@
-import { Tab, TabList, TabPanel, TabPanels, Tabs, Text } from "@chakra-ui/react";
-import { combineActivityScore, combineSkillXP, sort } from "../util";
-import { CombinedCountGroup, ICombinedHighlighted } from "./CombinedCountGroup";
+import { Text } from "@chakra-ui/react";
+import { combine } from "../util";
+import { CombinedCountGroup } from "./CombinedCountGroup";
 import { ICombined, IPlayerDetails } from "../types";
 import { useMemo } from "react";
 import { SortMethod } from "../enums";
 import fuzzysort from "fuzzysort";
+import { TabbedTotals } from "./TabbedTotals";
 
 interface IPlayerTotalsProps {
   players: IPlayerDetails[];
@@ -12,45 +13,14 @@ interface IPlayerTotalsProps {
   sortMethod: SortMethod;
 }
 
-interface ITabbedTotals {
-  bossCounts: ICombined[];
-  activityCounts: ICombined[];
-  skillCounts: ICombined[];
-  sortMethod: SortMethod;
-}
-
-const TabbedTotals = (props: ITabbedTotals) => {
-  return (
-    <Tabs w="100%" isFitted>
-      <TabList>
-        <Tab>Bosses</Tab>
-        <Tab>Activities</Tab>
-        <Tab>Skills</Tab>
-      </TabList>
-
-      <TabPanels>
-        <TabPanel>
-          <CombinedCountGroup combinedCounts={sort(props.bossCounts, props.sortMethod)} />
-        </TabPanel>
-        <TabPanel>
-          <CombinedCountGroup combinedCounts={sort(props.activityCounts, props.sortMethod)} />
-        </TabPanel>
-        <TabPanel>
-          <CombinedCountGroup combinedCounts={sort(props.skillCounts, props.sortMethod)} />
-        </TabPanel>
-      </TabPanels>
-    </Tabs>
-  );
-};
-
 export const PlayerTotals = (props: IPlayerTotalsProps) => {
   const [bossCounts, activityCounts, skillCounts, allCounts] = useMemo(() => {
     // Osrs API combines activities and bosses as one group, so split them up
-    const activityAndBossCounts = combineActivityScore(props.players);
+    const activityAndBossCounts = combine(props.players, "activities");
     const firstBoss = "Abyssal Sire";
     const firstBossIndex = activityAndBossCounts.findIndex((x) => x.metric.name === firstBoss);
     const splicedBossCounts = activityAndBossCounts.splice(firstBossIndex);
-    const combinedSkills = combineSkillXP(props.players);
+    const combinedSkills = combine(props.players, "skills");
     const all = splicedBossCounts.concat(activityAndBossCounts).concat(combinedSkills);
     return [splicedBossCounts, activityAndBossCounts, combinedSkills, all];
   }, [props.players]);
@@ -91,7 +61,7 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
       };
     });
 
-    const combinedHighlighted: ICombinedHighlighted[] = y.map((y1) => ({
+    const combinedHighlighted: ICombined[] = y.map((y1) => ({
       ...y1.obj,
       metric: {
         ...y1.obj.metric,

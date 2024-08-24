@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Container, Flex, Link, useToast, Text } from "@chakra-ui/react";
+import { Container, Flex, Link, useToast } from "@chakra-ui/react";
 import { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { useEffect } from "react";
@@ -41,12 +41,6 @@ const Layout = () => {
         <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
           Source <ExternalLinkIcon mx="2px" />
         </Link>
-        <Text>
-          Image assets from{" "}
-          <Link href="https://github.com/wise-old-man/wise-old-man" isExternal>
-            wise-old-man <ExternalLinkIcon mx="2px" />
-          </Link>
-        </Text>
       </Flex>
     </Container>
   );

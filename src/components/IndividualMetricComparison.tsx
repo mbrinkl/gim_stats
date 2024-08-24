@@ -23,16 +23,5 @@ export const IndividualMetricComparison = (props: IIndividualMetricComparisonPro
         </Tbody>
       </Table>
     </TableContainer>
-
-    // <Box>
-    //   {sorted.map((data) => (
-    //     <Flex key={data.username} justify="space-between" align="flex-end" gap={1}>
-    //       <Text overflowWrap="anywhere">{data.username}:</Text>
-    //       <Text align="right">
-    //         {formatCount(data.count)} {data.level && <span>(Lv{data.level})</span>}
-    //       </Text>
-    //     </Flex>
-    //   ))}
-    // </Box>
   );
 };

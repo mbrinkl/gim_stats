@@ -19,6 +19,7 @@ export const CombinedCountGroupStory = () => {
           count: 123,
         },
       ],
+      total: 1000,
     },
   ];
   return <CombinedCountGroup combinedCounts={combinedCounts} />;

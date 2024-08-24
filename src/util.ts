@@ -1,6 +1,6 @@
 import { ALIASES, HIDDEN_ACTIVITIES } from "./config";
 import { ICombined } from "./types/ICombined";
-import { IActivity, IPlayerDetails, ISkill } from "./types";
+import { IActivity, IImageData, IPlayerDetails, ISkill } from "./types";
 import { SortMethod } from "./enums";
 
 /**
@@ -25,7 +25,7 @@ export const formatCount = (count: number): string => {
 /**
  * Get PNG for metric from WOM GitHub repo
  */
-export const getWomImages = (metric: string) => {
+export const getWomImages = (metric: string): IImageData => {
   let formatted = metric
     .toLocaleLowerCase()
     .replace(" - rank", "")
@@ -46,57 +46,6 @@ export const getWomImages = (metric: string) => {
   };
 };
 
-export const combineActivityScore = (players: IPlayerDetails[]) => {
-  const combined: ICombined[] = [];
-  players.forEach((player) => {
-    player.activities.forEach((activity) => {
-      if (HIDDEN_ACTIVITIES.includes(activity.name)) {
-        return;
-      }
-      const index = combined.map((s) => s.metric.name).indexOf(activity.name);
-      if (index === -1) {
-        combined.push({
-          metric: { name: activity.name, aliases: getAliases(activity.name) },
-          playerData: [getCombinedActivityData(player, activity)],
-        });
-      } else {
-        combined[index].playerData.push(getCombinedActivityData(player, activity));
-      }
-    });
-  });
-  return combined;
-};
-
-const getCombinedActivityData = (player: IPlayerDetails, activity: IActivity) => {
-  return { username: player.username, count: activity.score };
-};
-
-export const combineSkillXP = (players: IPlayerDetails[]) => {
-  const combined: ICombined[] = [];
-  players.forEach((player) => {
-    player.skills.forEach((skill) => {
-      const index = combined.map((s) => s.metric.name).indexOf(skill.name);
-      if (index === -1) {
-        combined.push({
-          metric: { name: skill.name, aliases: getAliases(skill.name) },
-          playerData: [getCombinedSkillData(player, skill)],
-        });
-      } else {
-        combined[index].playerData.push(getCombinedSkillData(player, skill));
-      }
-    });
-  });
-  return combined;
-};
-
-const getCombinedSkillData = (player: IPlayerDetails, skill: ISkill) => {
-  return { username: player.username, count: skill.xp, level: skill.level };
-};
-
-export const combineCounts = (combined: ICombined): number => {
-  return combined.playerData.reduce((sum, y) => sum + y.count, 0);
-};
-
 export const sort = (arr: ICombined[], method: SortMethod): ICombined[] => {
   const deepClonedArr = JSON.parse(JSON.stringify(arr)) as ICombined[];
   switch (method) {
@@ -106,10 +55,37 @@ export const sort = (arr: ICombined[], method: SortMethod): ICombined[] => {
     case SortMethod.ALPHABETICAL:
       return deepClonedArr.sort((a, b) => a.metric.name.localeCompare(b.metric.name));
     case SortMethod.BY_COUNT:
-      return deepClonedArr.sort((a, b) => combineCounts(b) - combineCounts(a));
+      return deepClonedArr.sort((a, b) => b.total - a.total);
   }
 };
 
-const getAliases = (metric: string): string[] => {
-  return ALIASES[metric] ?? [];
+export const combine = (players: IPlayerDetails[], key: keyof Pick<IPlayerDetails, "activities" | "skills">) => {
+  const combined: ICombined[] = [];
+  players.forEach((player) => {
+    player[key].forEach((item) => {
+      if (HIDDEN_ACTIVITIES.includes(item.name)) {
+        return;
+      }
+      const index = combined.map((s) => s.metric.name).indexOf(item.name);
+      if (index === -1) {
+        combined.push({
+          metric: { name: item.name, aliases: ALIASES[item.name] ?? [] },
+          playerData: [getActivityOrSkillPlayerData(player, item)],
+          total: "score" in item ? item["score"] : item["xp"],
+        });
+      } else {
+        combined[index].playerData.push(getActivityOrSkillPlayerData(player, item));
+        combined[index].total += "score" in item ? item["score"] : item["xp"];
+      }
+    });
+  });
+  return combined;
+};
+
+const getActivityOrSkillPlayerData = (player: IPlayerDetails, item: IActivity | ISkill) => {
+  if ("score" in item) {
+    return { username: player.username, count: item.score };
+  } else {
+    return { username: player.username, count: item.xp, level: item.level };
+  }
 };

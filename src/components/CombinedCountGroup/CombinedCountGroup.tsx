@@ -1,21 +1,10 @@
 import { Image, Flex, Text, VStack, Box } from "@chakra-ui/react";
-import { combineCounts, formatCount, getWomImages } from "../../util";
+import { formatCount, getWomImages } from "../../util";
 import { IndividualMetricComparison } from "../IndividualMetricComparison";
 import { ICombined } from "../../types";
 
-export interface ICombinedHighlighted extends ICombined {
-  metric: {
-    name: string;
-    highlight?: {
-      value: JSX.Element;
-      isAlias: boolean;
-    };
-    aliases: string[];
-  };
-}
-
 interface ICombinedCountGroupProps {
-  combinedCounts: ICombinedHighlighted[];
+  combinedCounts: ICombined[];
 }
 
 export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
@@ -49,7 +38,7 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
                   <Text>{combined.metric.name}</Text>
                 )}
                 <Text fontSize="2xl" fontWeight="bold">
-                  {formatCount(combineCounts(combined))}
+                  {formatCount(combined.total)}
                 </Text>
               </Box>
               <Image src={metricImg} alt={combined.metric.name} boxSize="30px" objectFit="contain" />
