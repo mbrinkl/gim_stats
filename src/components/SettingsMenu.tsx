@@ -24,7 +24,7 @@ export const SettingsMenu = (props: ISettingsMenuProps) => {
 
   return (
     <Menu>
-      <MenuButton id="settings-button" as={IconButton} icon={<SettingsIcon />} />
+      <MenuButton as={IconButton} icon={<SettingsIcon />} aria-label="settings-button" />
       <MenuList>
         <MenuItem as={RouterLink} to="/edit" search={true}>
           Change Usernames
