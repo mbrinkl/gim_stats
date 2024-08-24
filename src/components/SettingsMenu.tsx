@@ -24,7 +24,7 @@ export const SettingsMenu = (props: ISettingsMenuProps) => {
 
   return (
     <Menu>
-      <MenuButton as={IconButton} icon={<SettingsIcon />} />
+      <MenuButton id="settings-button" as={IconButton} icon={<SettingsIcon />} />
       <MenuList>
         <MenuItem as={RouterLink} to="/edit" search={true}>
           Change Usernames

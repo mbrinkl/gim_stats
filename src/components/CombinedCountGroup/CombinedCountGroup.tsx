@@ -52,7 +52,7 @@ export const CombinedCountGroup = (props: ICombinedCountGroupProps) => {
                   {formatCount(combineCounts(combined))}
                 </Text>
               </Box>
-              <Image src={metricImg} boxSize="30px" />
+              <Image src={metricImg} alt={combined.metric.name} boxSize="30px" objectFit="contain" />
             </Flex>
             <IndividualMetricComparison combined={combined} />
           </VStack>
