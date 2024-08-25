@@ -5,6 +5,7 @@ import { Link as RouterLink } from "@tanstack/react-router";
 import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editFormSchema, EditFormSchema } from "../types";
+import { useState } from "react";
 
 interface EditUsernamesFormProps {
   usernames: string[];
@@ -12,6 +13,7 @@ interface EditUsernamesFormProps {
 }
 
 export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
+  const [isNavLoading, setIsNavLoading] = useState(false);
   const {
     handleSubmit,
     register,
@@ -42,6 +44,7 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
   };
 
   const onSubmit: SubmitHandler<EditFormSchema> = ({ playerNames }) => {
+    setIsNavLoading(true);
     props.onSubmit(playerNames.map((u) => u.value));
   };
 
@@ -84,7 +87,7 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
           <Button as={RouterLink} to="/" search={true} colorScheme="red">
             Cancel
           </Button>
-          <Button type="submit" isDisabled={!isValid} colorScheme="blue">
+          <Button type="submit" isDisabled={!isValid} colorScheme="blue" isLoading={isNavLoading}>
             Done
           </Button>
         </Flex>
