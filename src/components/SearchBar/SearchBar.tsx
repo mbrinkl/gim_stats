@@ -1,12 +1,12 @@
 import { CloseIcon } from "@chakra-ui/icons";
 import { IconButton, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
 
-interface ISearchBarProps {
+interface SearchBarProps {
   value: string;
   onChange: (value: string) => void;
 }
 
-export const SearchBar = (props: ISearchBarProps) => {
+export const SearchBar = (props: SearchBarProps) => {
   const onSearch = (e: React.ChangeEvent<HTMLInputElement>) => {
     props.onChange(e.target.value);
   };

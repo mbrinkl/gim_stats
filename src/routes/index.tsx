@@ -12,7 +12,7 @@ import {
   useNavigate,
   useRouter,
 } from "@tanstack/react-router";
-import { IPlayerDetails } from "../types";
+import { PlayerDetails } from "../types";
 
 const HomePage = () => {
   const [searchedMetric, setSearchedMetric] = useState("");
@@ -63,7 +63,7 @@ export const Route = createFileRoute("/")({
       const errors = results.filter((r) => r.status === "rejected").map((r) => (r as PromiseRejectedResult).reason);
       throw new Error(errors.join());
     }
-    return results.map((r) => (r as PromiseFulfilledResult<IPlayerDetails>).value);
+    return results.map((r) => (r as PromiseFulfilledResult<PlayerDetails>).value);
   },
   pendingComponent: () => <div>Loading...</div>,
   pendingMs: 0,

@@ -12,12 +12,12 @@ import {
 import { SortMethod } from "../enums";
 import { Link as RouterLink } from "@tanstack/react-router";
 
-interface ISettingsMenuProps {
+interface SettingsMenuProps {
   sortMethod: SortMethod;
   onSortMethodChange: (sortMethod: SortMethod) => void;
 }
 
-export const SettingsMenu = (props: ISettingsMenuProps) => {
+export const SettingsMenu = (props: SettingsMenuProps) => {
   const onChangeSortMethod = (val: string | string[]) => {
     props.onSortMethodChange(val as SortMethod);
   };

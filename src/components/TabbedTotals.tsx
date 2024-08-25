@@ -1,17 +1,17 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
 import { SortMethod } from "../enums";
-import { ICombined } from "../types";
+import { Combined } from "../types";
 import { sort } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
 
-interface ITabbedTotals {
-  bossCounts: ICombined[];
-  activityCounts: ICombined[];
-  skillCounts: ICombined[];
+interface TabbedTotalsProps {
+  bossCounts: Combined[];
+  activityCounts: Combined[];
+  skillCounts: Combined[];
   sortMethod: SortMethod;
 }
 
-export const TabbedTotals = (props: ITabbedTotals) => {
+export const TabbedTotals = (props: TabbedTotalsProps) => {
   return (
     <Tabs w="100%" isFitted>
       <TabList>

@@ -1,6 +1,5 @@
 import { ALIASES, HIDDEN_ACTIVITIES } from "./config";
-import { ICombined } from "./types/ICombined";
-import { IActivity, IImageData, IPlayerDetails, ISkill } from "./types";
+import { Activity, ImageData, PlayerDetails, Skill, Combined, PlayerData } from "./types";
 import { SortMethod } from "./enums";
 
 /**
@@ -25,7 +24,7 @@ export const formatCount = (count: number): string => {
 /**
  * Get PNG for metric from WOM GitHub repo
  */
-export const getWomImages = (metric: string): IImageData => {
+export const getWomImages = (metric: string): ImageData => {
   let formatted = metric
     .toLocaleLowerCase()
     .replace(" - rank", "")
@@ -46,8 +45,8 @@ export const getWomImages = (metric: string): IImageData => {
   };
 };
 
-export const sort = (arr: ICombined[], method: SortMethod): ICombined[] => {
-  const deepClonedArr = JSON.parse(JSON.stringify(arr)) as ICombined[];
+export const sort = (arr: Combined[], method: SortMethod): Combined[] => {
+  const deepClonedArr = JSON.parse(JSON.stringify(arr)) as Combined[];
   switch (method) {
     case SortMethod.DEFAULT:
     default:
@@ -59,8 +58,11 @@ export const sort = (arr: ICombined[], method: SortMethod): ICombined[] => {
   }
 };
 
-export const combine = (players: IPlayerDetails[], key: keyof Pick<IPlayerDetails, "activities" | "skills">) => {
-  const combined: ICombined[] = [];
+export const combine = (
+  players: PlayerDetails[],
+  key: keyof Pick<PlayerDetails, "activities" | "skills">,
+): Combined[] => {
+  const combined: Combined[] = [];
   players.forEach((player) => {
     player[key].forEach((item) => {
       if (HIDDEN_ACTIVITIES.includes(item.name)) {
@@ -82,7 +84,7 @@ export const combine = (players: IPlayerDetails[], key: keyof Pick<IPlayerDetail
   return combined;
 };
 
-const getActivityOrSkillPlayerData = (player: IPlayerDetails, item: IActivity | ISkill) => {
+const getActivityOrSkillPlayerData = (player: PlayerDetails, item: Activity | Skill): PlayerData => {
   if ("score" in item) {
     return { username: player.username, count: item.score };
   } else {

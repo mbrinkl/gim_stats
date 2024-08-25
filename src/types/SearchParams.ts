@@ -1,6 +1,6 @@
 import { SortMethod } from "../enums";
 
-export interface ISearchParams {
+export interface SearchParams {
   usernames: string[];
   sort: SortMethod;
   error?: boolean;

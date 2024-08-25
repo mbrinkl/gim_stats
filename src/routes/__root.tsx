@@ -3,7 +3,7 @@ import { Container, Flex, Link, useToast } from "@chakra-ui/react";
 import { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { useEffect } from "react";
-import { ISearchParams, usernameSearchSchema } from "../types";
+import { SearchParams, usernameSearchSchema } from "../types";
 import { SortMethod } from "../enums";
 import { DEFAULT_USERNAMES } from "../config";
 
@@ -48,7 +48,7 @@ const Layout = () => {
 
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   component: Layout,
-  validateSearch: (search: Record<string, unknown>): ISearchParams => {
+  validateSearch: (search: Record<string, unknown>): SearchParams => {
     const usernameSearchResult = usernameSearchSchema.safeParse(search.usernames);
 
     let error: boolean | undefined;

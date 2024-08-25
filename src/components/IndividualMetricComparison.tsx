@@ -1,12 +1,12 @@
 import { Table, TableContainer, Tbody, Td, Tr } from "@chakra-ui/react";
 import { formatCount } from "../util";
-import { ICombined } from "../types";
+import { Combined } from "../types";
 
-interface IIndividualMetricComparisonProps {
-  combined: ICombined;
+interface IndividualMetricComparisonProps {
+  combined: Combined;
 }
 
-export const IndividualMetricComparison = (props: IIndividualMetricComparisonProps) => {
+export const IndividualMetricComparison = (props: IndividualMetricComparisonProps) => {
   const sorted = props.combined.playerData.sort((a, b) => (b.level || 0) - (a.level || 0) || b.count - a.count);
 
   return (

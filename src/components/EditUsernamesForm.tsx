@@ -6,12 +6,12 @@ import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editFormSchema, EditFormSchema } from "../types";
 
-interface IEditUsernamesFormProps {
+interface EditUsernamesFormProps {
   usernames: string[];
   onSubmit: (usernames: string[]) => void;
 }
 
-export const EditUsernamesForm = (props: IEditUsernamesFormProps) => {
+export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
   const {
     handleSubmit,
     register,

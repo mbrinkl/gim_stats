@@ -1,8 +1,8 @@
 import { EnsureQueryDataOptions } from "@tanstack/react-query";
-import { API_IPlayerDetails, IPlayerDetails } from "../types";
+import { API_PlayerDetails, PlayerDetails } from "../types";
 import { normalizeCount } from "../util";
 
-const transformResponse = (playerDetails: API_IPlayerDetails, username: string): IPlayerDetails => {
+const transformResponse = (playerDetails: API_PlayerDetails, username: string): PlayerDetails => {
   return {
     ...playerDetails,
     username,
@@ -17,7 +17,7 @@ const transformResponse = (playerDetails: API_IPlayerDetails, username: string):
   };
 };
 
-const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
+const fetchPlayer = async (username: string): Promise<PlayerDetails> => {
   const url = "https://secure.runescape.com/m=hiscore_oldschool/index_lite.json?player=" + username;
   const proxiedUrl = "https://corsproxy.io/?" + encodeURIComponent(url);
   const res = await fetch(proxiedUrl);
@@ -26,11 +26,11 @@ const fetchPlayer = async (username: string): Promise<IPlayerDetails> => {
   } else if (!res.ok) {
     throw new Error("Failed to fetch user data for " + username);
   }
-  const data = (await res.json()) as API_IPlayerDetails;
+  const data = (await res.json()) as API_PlayerDetails;
   return transformResponse(data, username);
 };
 
-export const fetchPlayerQueryOpts = (username: string): EnsureQueryDataOptions<IPlayerDetails> => ({
+export const fetchPlayerQueryOpts = (username: string): EnsureQueryDataOptions<PlayerDetails> => ({
   queryKey: ["details", username],
   queryFn: () => fetchPlayer(username),
 });

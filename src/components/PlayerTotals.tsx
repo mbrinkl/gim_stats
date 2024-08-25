@@ -1,19 +1,19 @@
 import { Text } from "@chakra-ui/react";
 import { combine } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
-import { ICombined, IPlayerDetails } from "../types";
+import { Combined, PlayerDetails } from "../types";
 import { useMemo } from "react";
 import { SortMethod } from "../enums";
 import fuzzysort from "fuzzysort";
 import { TabbedTotals } from "./TabbedTotals";
 
-interface IPlayerTotalsProps {
-  players: IPlayerDetails[];
+interface PlayerTotalsProps {
+  players: PlayerDetails[];
   searchedMetric: string;
   sortMethod: SortMethod;
 }
 
-export const PlayerTotals = (props: IPlayerTotalsProps) => {
+export const PlayerTotals = (props: PlayerTotalsProps) => {
   const [bossCounts, activityCounts, skillCounts, allCounts] = useMemo(() => {
     // Osrs API combines activities and bosses as one group, so split them up
     const activityAndBossCounts = combine(props.players, "activities");
@@ -61,7 +61,7 @@ export const PlayerTotals = (props: IPlayerTotalsProps) => {
       };
     });
 
-    const combinedHighlighted: ICombined[] = y.map((y1) => ({
+    const combinedHighlighted: Combined[] = y.map((y1) => ({
       ...y1.obj,
       metric: {
         ...y1.obj.metric,

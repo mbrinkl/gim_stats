@@ -1,8 +1,8 @@
 import { CombinedCountGroup } from "./CombinedCountGroup";
-import { ICombined } from "../../types";
+import { Combined } from "../../types";
 
 export const CombinedCountGroupStory = () => {
-  const combinedCounts: ICombined[] = [
+  const combinedCounts: Combined[] = [
     {
       metric: { name: "Chambers of Xeric: Challenge Mode", aliases: [] },
       playerData: [
