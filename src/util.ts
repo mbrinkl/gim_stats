@@ -5,11 +5,7 @@ import { SortMethod } from "./enums";
 /**
  * Convert unranked counts from -1 to 0
  */
-export const normalizeCount = (count: number): number => {
-  if (count === -1) return 0;
-  return count;
-};
-
+export const normalizeCount = (count: number): number => (count === -1 ? 0 : count);
 /**
  * Format a count value into formatted string
  */
