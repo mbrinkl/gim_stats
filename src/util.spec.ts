@@ -1,4 +1,3 @@
-import { SortMethod } from "./enums";
 import { Combined } from "./types";
 import { formatCount, normalizeCount, sort } from "./util";
 
@@ -34,7 +33,7 @@ describe(formatCount.name, () => {
 describe(sort.name, () => {
   it("should not modify inout array", () => {
     const arr: Combined[] = [];
-    const result = sort(arr, SortMethod.ALPHABETICAL);
+    const result = sort(arr, "alphabetical");
     expect(result).not.toBe(arr);
   });
 
@@ -43,7 +42,7 @@ describe(sort.name, () => {
       { metric: { name: "B", aliases: [] }, playerData: [], total: 100 },
       { metric: { name: "A", aliases: [] }, playerData: [], total: 100 },
     ];
-    const result = sort(arr, SortMethod.DEFAULT);
+    const result = sort(arr, "default");
     expect(result).toEqual(arr);
   });
 
@@ -52,7 +51,7 @@ describe(sort.name, () => {
       { metric: { name: "B", aliases: [] }, playerData: [], total: 100 },
       { metric: { name: "A", aliases: [] }, playerData: [], total: 100 },
     ];
-    const result = sort(arr, SortMethod.ALPHABETICAL);
+    const result = sort(arr, "alphabetical");
     expect(result[0].metric.name).toBe("A");
     expect(result[1].metric.name).toBe("B");
   });
@@ -62,7 +61,7 @@ describe(sort.name, () => {
       { metric: { name: "A", aliases: [] }, playerData: [], total: 50 },
       { metric: { name: "B", aliases: [] }, playerData: [], total: 100 },
     ];
-    const result = sort(arr, SortMethod.BY_COUNT);
+    const result = sort(arr, "by_count");
     expect(result[0].total).toBe(100);
     expect(result[1].total).toBe(50);
   });

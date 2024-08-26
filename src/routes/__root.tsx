@@ -4,8 +4,8 @@ import { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SearchParams, usernameSearchSchema } from "../types";
-import { SortMethod } from "../enums";
 import { DEFAULT_USERNAMES } from "../config";
+import { sortMethodSchema } from "../types";
 
 const Layout = () => {
   const { error } = Route.useSearch();
@@ -57,7 +57,7 @@ export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()(
     }
 
     return {
-      sort: (search.sort as SortMethod) || SortMethod.DEFAULT,
+      sort: sortMethodSchema.parse(search.sort),
       usernames: usernameSearchResult.data || DEFAULT_USERNAMES,
       error,
     };

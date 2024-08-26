@@ -1,5 +1,5 @@
 import * as z from "zod";
-import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES, USERNAME_REGEX } from "../config";
+import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES, USERNAME_REGEX } from "../../config";
 
 const checkForDuplicates = (values: string[], ctx: z.RefinementCtx, path?: string) => {
   const uniqueValues = new Map<string, number>();

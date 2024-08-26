@@ -2,7 +2,6 @@ import { Button, Center, Flex, Link, Text, VStack } from "@chakra-ui/react";
 import { PlayerTotals } from "../components/PlayerTotals";
 import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
-import { SortMethod } from "../enums";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { fetchPlayerQueryOpts } from "../api";
 import {
@@ -12,7 +11,7 @@ import {
   useNavigate,
   useRouter,
 } from "@tanstack/react-router";
-import { PlayerDetails } from "../types";
+import { PlayerDetails, SortMethod } from "../types";
 
 const HomePage = () => {
   const [searchedMetric, setSearchedMetric] = useState("");

@@ -1,4 +1,4 @@
-import { SortMethod } from "../enums";
+import { SortMethod } from "./schema";
 
 export interface SearchParams {
   usernames: string[];

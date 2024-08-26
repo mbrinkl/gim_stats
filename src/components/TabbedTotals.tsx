@@ -1,6 +1,5 @@
 import { Tab, TabList, TabPanel, TabPanels, Tabs } from "@chakra-ui/react";
-import { SortMethod } from "../enums";
-import { Combined } from "../types";
+import { Combined, SortMethod } from "../types";
 import { sort } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
 

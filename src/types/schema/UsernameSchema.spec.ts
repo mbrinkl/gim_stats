@@ -1,4 +1,4 @@
-import { DEFAULT_USERNAMES, MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../config";
+import { DEFAULT_USERNAMES, MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../../config";
 import { usernameSearchSchema } from "./UsernameSchema";
 
 it("should succeed parsing default usernames", () => {

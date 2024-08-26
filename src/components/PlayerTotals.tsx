@@ -1,9 +1,8 @@
 import { Text } from "@chakra-ui/react";
 import { combine } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
-import { Combined, PlayerDetails } from "../types";
+import { Combined, PlayerDetails, SortMethod } from "../types";
 import { useMemo } from "react";
-import { SortMethod } from "../enums";
 import fuzzysort from "fuzzysort";
 import { TabbedTotals } from "./TabbedTotals";
 

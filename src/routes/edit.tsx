@@ -1,14 +1,13 @@
 import { EditUsernamesForm } from "../components/EditUsernamesForm";
 import { Center, Text } from "@chakra-ui/react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
-import { SortMethod } from "../enums";
 
 const EditPage = () => {
   const { usernames } = Route.useSearch();
   const navigate = useNavigate();
 
   const onSubmit = (values: string[]) => {
-    navigate({ to: "/", search: (s) => ({ ...s, usernames: values, sort: s.sort || SortMethod.DEFAULT }) });
+    navigate({ to: "/", search: (s) => ({ ...s, usernames: values, sort: s.sort || "default" }) });
   };
 
   return (

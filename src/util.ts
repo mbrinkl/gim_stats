@@ -1,6 +1,5 @@
 import { ALIASES, HIDDEN_ACTIVITIES } from "./config";
-import { Activity, ImageData, PlayerDetails, Skill, Combined, PlayerData } from "./types";
-import { SortMethod } from "./enums";
+import { Activity, ImageData, PlayerDetails, Skill, Combined, PlayerData, SortMethod } from "./types";
 
 /**
  * Convert unranked counts from -1 to 0
@@ -44,12 +43,12 @@ export const getWomImages = (metric: string): ImageData => {
 export const sort = (arr: Combined[], method: SortMethod): Combined[] => {
   const deepClonedArr = JSON.parse(JSON.stringify(arr)) as Combined[];
   switch (method) {
-    case SortMethod.DEFAULT:
+    case "default":
     default:
       return deepClonedArr;
-    case SortMethod.ALPHABETICAL:
+    case "alphabetical":
       return deepClonedArr.sort((a, b) => a.metric.name.localeCompare(b.metric.name));
-    case SortMethod.BY_COUNT:
+    case "by_count":
       return deepClonedArr.sort((a, b) => b.total - a.total);
   }
 };

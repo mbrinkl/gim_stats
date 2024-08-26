@@ -9,7 +9,7 @@ import {
   MenuList,
   MenuOptionGroup,
 } from "@chakra-ui/react";
-import { SortMethod } from "../enums";
+import { SortMethod, sortMethodSchema } from "../types";
 import { Link as RouterLink } from "@tanstack/react-router";
 
 interface SettingsMenuProps {
@@ -22,6 +22,8 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
     props.onSortMethodChange(val as SortMethod);
   };
 
+  const sortMethods = sortMethodSchema.removeCatch().enum;
+
   return (
     <Menu>
       <MenuButton as={IconButton} icon={<SettingsIcon />} aria-label="settings-button" />
@@ -31,9 +33,9 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
         </MenuItem>
         <MenuDivider />
         <MenuOptionGroup title="Sort" type="radio" value={props.sortMethod} onChange={onChangeSortMethod}>
-          <MenuItemOption value={SortMethod.DEFAULT}>OSRS Default</MenuItemOption>
-          <MenuItemOption value={SortMethod.ALPHABETICAL}>Alphabetical</MenuItemOption>
-          <MenuItemOption value={SortMethod.BY_COUNT}>By Combined Count</MenuItemOption>
+          <MenuItemOption value={sortMethods.default}>Default</MenuItemOption>
+          <MenuItemOption value={sortMethods.alphabetical}>Alphabetical</MenuItemOption>
+          <MenuItemOption value={sortMethods.by_count}>By Combined Count</MenuItemOption>
         </MenuOptionGroup>
       </MenuList>
     </Menu>
