@@ -1,7 +1,7 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Container, Flex, Link, useToast } from "@chakra-ui/react";
+import { Container, Flex, Link, useToast, Text, Box } from "@chakra-ui/react";
 import { QueryClient } from "@tanstack/react-query";
-import { Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { Outlet, createRootRouteWithContext, Link as RouterLink } from "@tanstack/react-router";
 import { useEffect } from "react";
 import { SearchParams, usernameSearchSchema } from "../types";
 import { DEFAULT_USERNAMES } from "../config";
@@ -46,8 +46,20 @@ const Layout = () => {
   );
 };
 
+const NotFound = () => {
+  return (
+    <Box>
+      <Text fontSize="xl">Page Not found</Text>
+      <Link as={RouterLink} to="/">
+        Back to Home
+      </Link>
+    </Box>
+  );
+};
+
 export const Route = createRootRouteWithContext<{ queryClient: QueryClient }>()({
   component: Layout,
+  notFoundComponent: NotFound,
   validateSearch: (search: Record<string, unknown>): SearchParams => {
     const usernameSearchResult = usernameSearchSchema.safeParse(search.usernames);
 
