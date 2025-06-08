@@ -1,5 +1,5 @@
 import { EditUsernamesForm } from "../components/EditUsernamesForm";
-import { Center, Text } from "@chakra-ui/react";
+import { Center } from "@chakra-ui/react";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 const EditPage = () => {
@@ -11,8 +11,7 @@ const EditPage = () => {
   };
 
   return (
-    <Center h="100%" flexDirection="column" gap="1rem" pb="3rem">
-      <Text fontSize="xl">Usernames</Text>
+    <Center h="100%" py="3rem">
       <Center maxW="lg" w="100%">
         <EditUsernamesForm usernames={usernames} onSubmit={onSubmit} />
       </Center>

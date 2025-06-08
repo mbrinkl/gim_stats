@@ -1,11 +1,23 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import { Button, Flex, FormControl, FormHelperText, IconButton, Input } from "@chakra-ui/react";
+import {
+  Button,
+  Flex,
+  FormControl,
+  FormHelperText,
+  HStack,
+  IconButton,
+  Input,
+  Radio,
+  RadioGroup,
+  useToast,
+} from "@chakra-ui/react";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../config";
 import { Link as RouterLink } from "@tanstack/react-router";
-import { SubmitHandler, useFieldArray, useForm } from "react-hook-form";
+import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editFormSchema, EditFormSchema } from "../types";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useFetchGroupMutation } from "../api";
 
 interface EditUsernamesFormProps {
   usernames: string[];
@@ -20,16 +32,35 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
     control,
     formState: { errors, isValid },
     trigger,
+    watch,
   } = useForm<EditFormSchema>({
     resolver: zodResolver(editFormSchema),
-    defaultValues: { playerNames: props.usernames.map((u) => ({ value: u })) },
+    defaultValues: { formType: "usernames", playerNames: props.usernames.map((u) => ({ value: u })) },
     mode: "onChange",
   });
+
+  const formType = watch("formType");
 
   const { fields, append, remove, update } = useFieldArray<EditFormSchema>({
     control,
     name: "playerNames",
   });
+
+  const { mutate: fetchGroup, isError } = useFetchGroupMutation(props.onSubmit);
+  const toast = useToast();
+
+  useEffect(() => {
+    if (isError) {
+      toast({
+        id: "get_group_error_toast",
+        title: "Error.",
+        description: "Unable to fetch usernames for group",
+        status: "error",
+        duration: 9000,
+        isClosable: true,
+      });
+    }
+  }, [isError, toast]);
 
   const onAddClick = () => {
     append({ value: "" });
@@ -43,45 +74,72 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
     }
   };
 
-  const onSubmit: SubmitHandler<EditFormSchema> = ({ playerNames }) => {
+  const onSubmit: SubmitHandler<EditFormSchema> = (e) => {
     setIsNavLoading(true);
-    props.onSubmit(playerNames.map((u) => u.value));
+    if (e.formType === "groupname") {
+      fetchGroup(e.groupname);
+    } else {
+      props.onSubmit(e.playerNames.map((u) => u.value));
+    }
   };
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
       <Flex direction="column" justifyContent="center" gap="1rem">
-        {fields.map((u, index) => (
-          <Flex key={u.id} gap="1rem" alignItems="start" justify="center">
-            <FormControl>
-              <Input
-                maxLength={12}
-                required
-                autoComplete="off"
-                autoCorrect="off"
-                autoCapitalize="off"
-                {...register(`playerNames.${index}.value`, {
-                  onChange: () => {
-                    // Trigger non-empty fields to revalidate duplicate values
-                    const nonEmptyFieldIndicies = fields
-                      .map((playerName, index) => (playerName.value ? `playerNames.${index}` : null))
-                      .filter((v) => v !== null);
+        <Controller
+          name="formType"
+          control={control}
+          render={({ field }) => (
+            <RadioGroup
+              name={field.name}
+              value={field.value}
+              onChange={(value) => {
+                field.onChange(value);
+              }}
+            >
+              <HStack gap="1rem">
+                <Radio value="usernames">Usernames</Radio>
+                <Radio value="groupname">Group Name</Radio>
+              </HStack>
+            </RadioGroup>
+          )}
+        />
+        {formType === "groupname" && <Input {...register("groupname")} />}
+        {formType === "usernames" && (
+          <>
+            {fields.map((u, index) => (
+              <Flex key={u.id} gap="1rem" alignItems="start" justify="center">
+                <FormControl>
+                  <Input
+                    maxLength={12}
+                    required
+                    autoComplete="off"
+                    autoCorrect="off"
+                    autoCapitalize="off"
+                    {...register(`playerNames.${index}.value`, {
+                      onChange: () => {
+                        // Trigger non-empty fields to revalidate duplicate values
+                        const nonEmptyFieldIndicies = fields
+                          .map((playerName, index) => (playerName.value ? `playerNames.${index}` : null))
+                          .filter((v) => v !== null);
 
-                    trigger(nonEmptyFieldIndicies as `playerNames.${number}`[]);
-                  },
-                })}
-              />
-              {errors.playerNames?.[index]?.value?.message && (
-                <FormHelperText color="red.500">{errors.playerNames[index].value.message}</FormHelperText>
-              )}
-            </FormControl>
-            <IconButton aria-label="delete" icon={<DeleteIcon />} onClick={() => onDeleteClick(index)} />
-          </Flex>
-        ))}
-        {fields.length < MAX_NUM_USERNAMES && (
-          <Button leftIcon={<AddIcon />} onClick={onAddClick} colorScheme="green" tabIndex={0}>
-            Add Username
-          </Button>
+                        trigger(nonEmptyFieldIndicies as `playerNames.${number}`[]);
+                      },
+                    })}
+                  />
+                  {(errors as any).playerNames?.[index]?.value?.message && (
+                    <FormHelperText color="red.500">{(errors as any).playerNames[index].value.message}</FormHelperText>
+                  )}
+                </FormControl>
+                <IconButton aria-label="delete" icon={<DeleteIcon />} onClick={() => onDeleteClick(index)} />
+              </Flex>
+            ))}
+            {fields.length < MAX_NUM_USERNAMES && (
+              <Button leftIcon={<AddIcon />} onClick={onAddClick} colorScheme="green" tabIndex={0}>
+                Add Username
+              </Button>
+            )}
+          </>
         )}
         <Flex justify="space-between" align="center">
           <Button as={RouterLink} to="/" search={true} colorScheme="red">

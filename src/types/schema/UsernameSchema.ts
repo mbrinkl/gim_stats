@@ -31,7 +31,8 @@ export const usernameSearchSchema = z
     checkForDuplicates(usernames, ctx);
   });
 
-export const editFormSchema = z.object({
+export const editUsernamesFormSchema = z.object({
+  formType: z.literal("usernames"),
   // using 'playerNames' instead of 'usernames' to avoid password managers attempting to autofill
   playerNames: z
     .array(
@@ -50,5 +51,14 @@ export const editFormSchema = z.object({
       );
     }),
 });
+
+// Schema if isAdmin is false: items must be valid
+const groupSchema = z.object({
+  formType: z.literal("groupname"),
+  groupname: z.string().min(1).max(12),
+});
+
+// Discriminated union on `isAdmin`
+export const editFormSchema = z.discriminatedUnion("formType", [editUsernamesFormSchema, groupSchema]);
 
 export type EditFormSchema = z.infer<typeof editFormSchema>;
