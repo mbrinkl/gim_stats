@@ -104,7 +104,7 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
             </RadioGroup>
           )}
         />
-        {formType === "groupname" && <Input {...register("groupname")} />}
+        {formType === "groupname" && <Input maxLength={12} required {...register("groupname")} />}
         {formType === "usernames" && (
           <>
             {fields.map((u, index) => (
