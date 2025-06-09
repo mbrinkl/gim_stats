@@ -1,4 +1,4 @@
-import { Text } from "@chakra-ui/react";
+import { Text } from "@mantine/core";
 import { combine } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
 import { Combined, PlayerDetails, SortMethod } from "../types";
@@ -44,11 +44,11 @@ export const PlayerTotals = (props: PlayerTotalsProps) => {
 
     const getHighlight = (resy: Fuzzysort.Result) => {
       const h = resy.highlight((m, i) => (
-        <Text key={i} as="span" color="red">
+        <Text key={i} component="span" c="red">
           {m}
         </Text>
       ));
-      return <Text as="span">{h}</Text>;
+      return <Text component="span">{h}</Text>;
     };
 
     const y = result.map((r1) => {

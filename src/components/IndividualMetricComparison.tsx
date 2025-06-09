@@ -1,4 +1,4 @@
-import { Table, TableContainer, Tbody, Td, Tr } from "@chakra-ui/react";
+import { Table } from "@mantine/core";
 import { formatCount } from "../util";
 import { Combined } from "../types";
 
@@ -13,26 +13,20 @@ export const IndividualMetricComparison = (props: IndividualMetricComparisonProp
     : ["65%", "35%", "0"];
 
   return (
-    <TableContainer w="100%">
-      <Table variant="striped" size="sm" __css={{ width: "full", tableLayout: "fixed" }}>
-        <Tbody>
-          {sorted.map((data) => (
-            <Tr key={data.username}>
-              <Td wordBreak="break-all" whiteSpace="normal" w={widths[0]}>
-                {data.username}
-              </Td>
-              <Td isNumeric w={widths[1]}>
-                {formatCount(data.count)}
-              </Td>
-              {data.level != null && (
-                <Td isNumeric w={widths[2]}>
-                  Lv{data.level}
-                </Td>
-              )}
-            </Tr>
-          ))}
-        </Tbody>
-      </Table>
-    </TableContainer>
+    <Table striped withRowBorders={false} stripedColor="gray">
+      <Table.Tbody>
+        {sorted.map((data) => (
+          <Table.Tr key={data.username}>
+            <Table.Td style={{ wordBreak: "break-all", whiteSpace: "normal" }} w={widths[0]}>
+              {data.username}
+            </Table.Td>
+            <Table.Td w={widths[1]} style={{ textAlign: "right" }}>
+              {formatCount(data.count)}
+            </Table.Td>
+            {data.level != null && <Table.Td w={widths[2]}>Lv{data.level}</Table.Td>}
+          </Table.Tr>
+        ))}
+      </Table.Tbody>
+    </Table>
   );
 };

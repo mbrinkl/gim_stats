@@ -1,16 +1,20 @@
-import { SettingsIcon } from "@chakra-ui/icons";
-import {
-  IconButton,
-  Menu,
-  MenuButton,
-  MenuDivider,
-  MenuItem,
-  MenuItemOption,
-  MenuList,
-  MenuOptionGroup,
-} from "@chakra-ui/react";
+import { SettingsIcon, CheckIcon } from "@chakra-ui/icons";
 import { SortMethod, sortMethodSchema } from "../types";
 import { Link as RouterLink } from "@tanstack/react-router";
+import { ActionIcon, Menu } from "@mantine/core";
+
+// interface SettingsMenuSortItemProps {
+//   value: SortMethod;
+//   selectedValue: SortMethod;
+//   displayText: string;
+//   onSelect: () => void
+// }
+
+// const SettingsMenuSortItem = (props: SettingsMenuSortItemProps) => {
+//   return         <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.by_count)}>
+//           {props.displayText}
+//         </Menu.Item>
+// }
 
 interface SettingsMenuProps {
   sortMethod: SortMethod;
@@ -18,26 +22,36 @@ interface SettingsMenuProps {
 }
 
 export const SettingsMenu = (props: SettingsMenuProps) => {
-  const onChangeSortMethod = (val: string | string[]) => {
-    props.onSortMethodChange(val as SortMethod);
+  const onChangeSortMethod = (sortMethod: SortMethod) => {
+    props.onSortMethodChange(sortMethod);
   };
 
   const sortMethods = sortMethodSchema.removeCatch().enum;
 
   return (
     <Menu>
-      <MenuButton as={IconButton} icon={<SettingsIcon />} aria-label="settings-button" />
-      <MenuList>
-        <MenuItem as={RouterLink} to="/edit" search={true}>
+      <Menu.Target>
+        <ActionIcon aria-label="settings-button" size="lg" color="gray">
+          <SettingsIcon />
+        </ActionIcon>
+      </Menu.Target>
+      <Menu.Dropdown>
+        <Menu.Item component={RouterLink} to="/edit" search={true}>
           Change Usernames
-        </MenuItem>
-        <MenuDivider />
-        <MenuOptionGroup title="Sort" type="radio" value={props.sortMethod} onChange={onChangeSortMethod}>
-          <MenuItemOption value={sortMethods.default}>Default</MenuItemOption>
-          <MenuItemOption value={sortMethods.alphabetical}>Alphabetical</MenuItemOption>
-          <MenuItemOption value={sortMethods.by_count}>By Combined Count</MenuItemOption>
-        </MenuOptionGroup>
-      </MenuList>
+        </Menu.Item>
+        <Menu.Divider />
+        <Menu.Label>Sort</Menu.Label>
+
+        <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.default)}>
+          Default
+        </Menu.Item>
+        <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.alphabetical)}>
+          Alphabetical
+        </Menu.Item>
+        <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.by_count)}>
+          By Combined Count
+        </Menu.Item>
+      </Menu.Dropdown>
     </Menu>
   );
 };

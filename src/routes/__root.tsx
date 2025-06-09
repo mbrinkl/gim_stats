@@ -1,5 +1,5 @@
 import { ExternalLinkIcon } from "@chakra-ui/icons";
-import { Container, Flex, Link, useToast, Text, Box } from "@chakra-ui/react";
+import { Container, Flex, Text, Box, Anchor } from "@mantine/core";
 import { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext, Link as RouterLink } from "@tanstack/react-router";
 import { useEffect } from "react";
@@ -9,38 +9,40 @@ import { sortMethodSchema } from "../types";
 
 const Layout = () => {
   const { error } = Route.useSearch();
-  const toast = useToast();
+  // const toast = useToast();
 
-  useEffect(() => {
-    if (error) {
-      const toastId = "error-toast";
-      if (!toast.isActive(toastId)) {
-        toast({
-          id: toastId,
-          title: "Error.",
-          description: "Error parsing usernames in url search query. Using default usernames.",
-          status: "error",
-          duration: 9000,
-          isClosable: true,
-        });
-      }
-    }
-  }, [error, toast]);
+  // useEffect(() => {
+  //   if (error) {
+  //     const toastId = "error-toast";
+  //     if (!toast.isActive(toastId)) {
+  //       toast({
+  //         id: toastId,
+  //         title: "Error.",
+  //         description: "Error parsing usernames in url search query. Using default usernames.",
+  //         status: "error",
+  //         duration: 9000,
+  //         isClosable: true,
+  //       });
+  //     }
+  //   }
+  // }, [error, toast]);
 
   return (
     <Container
-      maxW="container.xl"
+      size="lg"
       display="flex"
-      minH="100dvh"
+      style={{
+        minHeight: "100dvh",
+        flexDirection: "column",
+        justifyContent: "space-between",
+      }}
       p="1rem"
-      flexDirection="column"
-      justifyContent="space-between"
     >
       <Outlet />
       <Flex direction="column" justify="flex-end" align="flex-end">
-        <Link href="https://github.com/mbrinkl/gim_stats" isExternal>
+        <Anchor href="https://github.com/mbrinkl/gim_stats">
           Source <ExternalLinkIcon mx="2px" />
-        </Link>
+        </Anchor>
       </Flex>
     </Container>
   );
@@ -49,10 +51,10 @@ const Layout = () => {
 const NotFound = () => {
   return (
     <Box>
-      <Text fontSize="xl">Page Not found</Text>
-      <Link as={RouterLink} to="/">
+      <Text size="xl">Page Not found</Text>
+      <Anchor component={RouterLink} to="/">
         Back to Home
-      </Link>
+      </Anchor>
     </Box>
   );
 };

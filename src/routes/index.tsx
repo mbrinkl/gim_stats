@@ -1,4 +1,4 @@
-import { Button, Center, Flex, Link, Text, VStack } from "@chakra-ui/react";
+import { Button, Center, Flex, Text, Stack, Anchor } from "@mantine/core";
 import { PlayerTotals } from "../components/PlayerTotals";
 import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
@@ -24,13 +24,13 @@ const HomePage = () => {
   };
 
   return (
-    <VStack gap="1rem">
-      <Flex gap="1rem" w="100%">
+    <Stack gap="1rem">
+      <Flex gap="1rem" w="100%" align="center">
         <SearchBar value={searchedMetric} onChange={setSearchedMetric} />
         <SettingsMenu sortMethod={sortMethod} onSortMethodChange={setSortMethod} />
       </Flex>
       <PlayerTotals players={players} searchedMetric={searchedMetric} sortMethod={sortMethod} />
-    </VStack>
+    </Stack>
   );
 };
 
@@ -38,14 +38,14 @@ const HomePageError = (props: ErrorComponentProps) => {
   const router = useRouter();
 
   return (
-    <Center h="100%" flexDirection="column" gap="2rem">
+    <Center h="100%" style={{ flexDirection: "column", gap: "2rem" }}>
       {props.error.message.split(",").map((err, index) => (
         <Text key={index}>{err}</Text>
       ))}
-      <Flex alignItems="center" gap="2rem">
-        <Link color="teal.500" as={RouterLink} to="/edit" search={true}>
+      <Flex align="center" gap="2rem">
+        <Anchor component={RouterLink} to="/edit" search={true}>
           Change Usernames
-        </Link>
+        </Anchor>
         <Button onClick={router.invalidate}>Retry</Button>
       </Flex>
     </Center>

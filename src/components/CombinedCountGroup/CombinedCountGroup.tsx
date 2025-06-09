@@ -1,4 +1,4 @@
-import { Image, Flex, Text, VStack, Box } from "@chakra-ui/react";
+import { Image, Flex, Text, Stack, Box } from "@mantine/core";
 import { formatCount, getWomImages } from "../../util";
 import { IndividualMetricComparison } from "../IndividualMetricComparison";
 import { Combined } from "../../types";
@@ -16,7 +16,7 @@ export const CombinedCountGroup = (props: CombinedCountGroupProps) => {
       return (
         <>
           <Text>{combined.metric.name}</Text>
-          <Text as="span">({combined.metric.highlight.value})</Text>
+          <Text component="span">({combined.metric.highlight.value})</Text>
         </>
       );
     }
@@ -24,31 +24,33 @@ export const CombinedCountGroup = (props: CombinedCountGroupProps) => {
   };
 
   return (
-    <Flex gap={3} flexWrap="wrap" justify="center">
+    <Flex gap="0.5rem" wrap="wrap" justify="center" pt="sm">
       {props.combinedCounts.map((combined) => {
         const { backgroundImg, metricImg } = getWomImages(combined.metric.name);
         return (
-          <VStack
+          <Stack
             key={combined.metric.name}
-            border="1px solid white"
-            borderRadius="15px"
+            style={{
+              border: "1px solid white",
+              borderRadius: "15px",
+              backgroundImage: `url(${backgroundImg})`,
+              backgroundSize: "cover",
+            }}
             p="1rem"
             w="320px"
             align="center"
-            backgroundImage={backgroundImg}
-            backgroundSize="cover"
           >
             <Flex justify="space-between" align="center" w="100%">
               <Box>
                 {getTitle(combined)}
-                <Text fontSize="2xl" fontWeight="bold">
+                <Text size="xl" fw="bold">
                   {formatCount(combined.total)}
                 </Text>
               </Box>
-              <Image src={metricImg} alt={combined.metric.name} boxSize="30px" objectFit="contain" />
+              <Image src={metricImg} alt={combined.metric.name} h="30px" w="auto" fit="contain" />
             </Flex>
             <IndividualMetricComparison combined={combined} />
-          </VStack>
+          </Stack>
         );
       })}
     </Flex>

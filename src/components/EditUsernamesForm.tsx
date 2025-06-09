@@ -1,16 +1,5 @@
 import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
-import {
-  Button,
-  Flex,
-  FormControl,
-  FormHelperText,
-  HStack,
-  IconButton,
-  Input,
-  Radio,
-  RadioGroup,
-  useToast,
-} from "@chakra-ui/react";
+import { ActionIcon, Button, Flex, Radio, TextInput } from "@mantine/core";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../config";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
@@ -47,20 +36,20 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
   });
 
   const { mutate: fetchGroup, isError } = useFetchGroupMutation(props.onSubmit);
-  const toast = useToast();
+  // const toast = useToast();
 
-  useEffect(() => {
-    if (isError) {
-      toast({
-        id: "get_group_error_toast",
-        title: "Error.",
-        description: "Unable to fetch usernames for group",
-        status: "error",
-        duration: 9000,
-        isClosable: true,
-      });
-    }
-  }, [isError, toast]);
+  // useEffect(() => {
+  //   if (isError) {
+  //     toast({
+  //       id: "get_group_error_toast",
+  //       title: "Error.",
+  //       description: "Unable to fetch usernames for group",
+  //       status: "error",
+  //       duration: 9000,
+  //       isClosable: true,
+  //     });
+  //   }
+  // }, [isError, toast]);
 
   const onAddClick = () => {
     append({ value: "" });
@@ -85,67 +74,81 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
 
   return (
     <form onSubmit={handleSubmit(onSubmit)} style={{ width: "100%" }}>
-      <Flex direction="column" justifyContent="center" gap="1rem">
+      <Flex direction="column" justify="center" gap="1rem">
         <Controller
           name="formType"
           control={control}
           render={({ field }) => (
-            <RadioGroup
+            <Radio.Group
               name={field.name}
               value={field.value}
               onChange={(value) => {
                 field.onChange(value);
               }}
             >
-              <HStack gap="1rem">
-                <Radio value="usernames">Usernames</Radio>
-                <Radio value="groupname">Group Name</Radio>
-              </HStack>
-            </RadioGroup>
+              <Flex gap="1rem">
+                <Radio value="usernames" label="Usernames" />
+                <Radio value="groupname" label="Group Name" />
+              </Flex>
+            </Radio.Group>
           )}
         />
-        {formType === "groupname" && <Input maxLength={12} required {...register("groupname")} />}
+        {formType === "groupname" && (
+          <TextInput
+            w="100%"
+            maxLength={12}
+            required
+            autoComplete="off"
+            autoCorrect="off"
+            autoCapitalize="off"
+            spellCheck="false"
+            {...register("groupname")}
+          />
+        )}
         {formType === "usernames" && (
           <>
             {fields.map((u, index) => (
-              <Flex key={u.id} gap="1rem" alignItems="start" justify="center">
-                <FormControl>
-                  <Input
-                    maxLength={12}
-                    required
-                    autoComplete="off"
-                    autoCorrect="off"
-                    autoCapitalize="off"
-                    {...register(`playerNames.${index}.value`, {
-                      onChange: () => {
-                        // Trigger non-empty fields to revalidate duplicate values
-                        const nonEmptyFieldIndicies = fields
-                          .map((playerName, index) => (playerName.value ? `playerNames.${index}` : null))
-                          .filter((v) => v !== null);
+              <Flex key={u.id} gap="1rem" align="center" justify="center">
+                <TextInput
+                  w="100%"
+                  maxLength={12}
+                  required
+                  autoComplete="off"
+                  autoCorrect="off"
+                  autoCapitalize="off"
+                  spellCheck="false"
+                  {...register(`playerNames.${index}.value`, {
+                    onChange: () => {
+                      // Trigger non-empty fields to revalidate duplicate values
+                      const nonEmptyFieldIndicies = fields
+                        .map((playerName, index) => (playerName.value ? `playerNames.${index}` : null))
+                        .filter((v) => v !== null);
 
-                        trigger(nonEmptyFieldIndicies as `playerNames.${number}`[]);
-                      },
-                    })}
-                  />
-                  {(errors as any).playerNames?.[index]?.value?.message && (
-                    <FormHelperText color="red.500">{(errors as any).playerNames[index].value.message}</FormHelperText>
-                  )}
-                </FormControl>
-                <IconButton aria-label="delete" icon={<DeleteIcon />} onClick={() => onDeleteClick(index)} />
+                      trigger(nonEmptyFieldIndicies as `playerNames.${number}`[]);
+                    },
+                  })}
+                  error={
+                    (errors as any).playerNames?.[index]?.value?.message &&
+                    (errors as any).playerNames[index].value.message
+                  }
+                />
+                <ActionIcon aria-label="delete" onClick={() => onDeleteClick(index)} size="md">
+                  <DeleteIcon />
+                </ActionIcon>
               </Flex>
             ))}
             {fields.length < MAX_NUM_USERNAMES && (
-              <Button leftIcon={<AddIcon />} onClick={onAddClick} colorScheme="green" tabIndex={0}>
+              <Button leftSection={<AddIcon />} onClick={onAddClick} color="green" tabIndex={0}>
                 Add Username
               </Button>
             )}
           </>
         )}
         <Flex justify="space-between" align="center">
-          <Button as={RouterLink} to="/" search={true} colorScheme="red">
+          <Button component={RouterLink} to="/" search={true} color="red">
             Cancel
           </Button>
-          <Button type="submit" isDisabled={!isValid} colorScheme="blue" isLoading={isNavLoading}>
+          <Button type="submit" disabled={!isValid} color="blue" loading={isNavLoading}>
             Done
           </Button>
         </Flex>

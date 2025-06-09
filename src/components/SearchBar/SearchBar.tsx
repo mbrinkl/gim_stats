@@ -1,5 +1,5 @@
 import { CloseIcon } from "@chakra-ui/icons";
-import { IconButton, Input, InputGroup, InputRightElement } from "@chakra-ui/react";
+import { ActionIcon, TextInput } from "@mantine/core";
 
 interface SearchBarProps {
   value: string;
@@ -15,14 +15,11 @@ export const SearchBar = (props: SearchBarProps) => {
     props.onChange("");
   };
 
-  return (
-    <InputGroup size="md">
-      <Input placeholder="Search" onChange={onSearch} value={props.value} />
-      {props.value && (
-        <InputRightElement>
-          <IconButton size="xs" aria-label="clear-search" icon={<CloseIcon />} onClick={onClearSearch} />
-        </InputRightElement>
-      )}
-    </InputGroup>
-  );
+  const clearButton = props.value ? (
+    <ActionIcon aria-label="clear-search" onClick={onClearSearch} size="sm" color="gray" variant="subtle">
+      <CloseIcon />
+    </ActionIcon>
+  ) : null;
+
+  return <TextInput placeholder="Search" w="100%" rightSection={clearButton} onChange={onSearch} value={props.value} />;
 };

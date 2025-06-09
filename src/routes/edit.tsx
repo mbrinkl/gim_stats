@@ -1,5 +1,5 @@
 import { EditUsernamesForm } from "../components/EditUsernamesForm";
-import { Center } from "@chakra-ui/react";
+import { Center } from "@mantine/core";
 import { createFileRoute, useNavigate } from "@tanstack/react-router";
 
 const EditPage = () => {
@@ -12,7 +12,7 @@ const EditPage = () => {
 
   return (
     <Center h="100%" py="3rem">
-      <Center maxW="lg" w="100%">
+      <Center w="100%" style={{ maxWidth: "500px" }}>
         <EditUsernamesForm usernames={usernames} onSubmit={onSubmit} />
       </Center>
     </Center>
