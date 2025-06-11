@@ -1,6 +1,5 @@
-import { render, screen } from "@testing-library/react";
 import { SearchBar } from "./SearchBar";
-import userEvent from "@testing-library/user-event";
+import { render, screen, userEvent } from "../../../test-utils";
 
 const mockOnChange = vi.fn();
 
