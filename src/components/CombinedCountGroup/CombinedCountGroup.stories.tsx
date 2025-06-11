@@ -1,7 +1,8 @@
 import { CombinedCountGroup } from "./CombinedCountGroup";
 import { Combined } from "../../types";
+import type { Meta, StoryObj } from "@storybook/react-vite";
 
-export const CombinedCountGroupStory = () => {
+const CombinedCountGroupStory = () => {
   const combinedCounts: Combined[] = [
     {
       metric: { name: "Chambers of Xeric", aliases: [] },
@@ -59,3 +60,15 @@ export const CombinedCountGroupStory = () => {
   ];
   return <CombinedCountGroup combinedCounts={combinedCounts} />;
 };
+
+// More on how to set up stories at: https://storybook.js.org/docs/writing-stories#default-export
+const meta = {
+  title: "Combined Count Group",
+  component: CombinedCountGroupStory,
+} satisfies Meta<typeof CombinedCountGroup>;
+
+export default meta;
+type Story = StoryObj<typeof meta>;
+
+// More on writing stories with args: https://storybook.js.org/docs/writing-stories/args
+export const Primary: Story = {};
