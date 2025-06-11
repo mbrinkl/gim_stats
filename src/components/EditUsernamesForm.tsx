@@ -1,4 +1,4 @@
-import { AddIcon, DeleteIcon } from "@chakra-ui/icons";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
 import { ActionIcon, Button, Flex, Radio, TextInput } from "@mantine/core";
 import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../config";
 import { Link as RouterLink } from "@tanstack/react-router";
@@ -133,12 +133,12 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
                   }
                 />
                 <ActionIcon aria-label="delete" onClick={() => onDeleteClick(index)} size="md">
-                  <DeleteIcon />
+                  <IconTrash />
                 </ActionIcon>
               </Flex>
             ))}
             {fields.length < MAX_NUM_USERNAMES && (
-              <Button leftSection={<AddIcon />} onClick={onAddClick} color="green" tabIndex={0}>
+              <Button leftSection={<IconPlus />} onClick={onAddClick} color="green" tabIndex={0}>
                 Add Username
               </Button>
             )}

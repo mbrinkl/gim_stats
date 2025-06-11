@@ -1,4 +1,4 @@
-import { CloseIcon } from "@chakra-ui/icons";
+import { IconX } from "@tabler/icons-react";
 import { ActionIcon, TextInput } from "@mantine/core";
 
 interface SearchBarProps {
@@ -17,7 +17,7 @@ export const SearchBar = (props: SearchBarProps) => {
 
   const clearButton = props.value ? (
     <ActionIcon aria-label="clear-search" onClick={onClearSearch} size="sm" color="gray" variant="subtle">
-      <CloseIcon />
+      <IconX />
     </ActionIcon>
   ) : null;
 

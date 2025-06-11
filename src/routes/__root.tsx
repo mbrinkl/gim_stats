@@ -1,4 +1,4 @@
-import { ExternalLinkIcon } from "@chakra-ui/icons";
+import { IconExternalLink } from "@tabler/icons-react";
 import { Container, Flex, Text, Box, Anchor } from "@mantine/core";
 import { QueryClient } from "@tanstack/react-query";
 import { Outlet, createRootRouteWithContext, Link as RouterLink } from "@tanstack/react-router";
@@ -41,7 +41,7 @@ const Layout = () => {
       <Outlet />
       <Flex direction="column" justify="flex-end" align="flex-end">
         <Anchor href="https://github.com/mbrinkl/gim_stats">
-          Source <ExternalLinkIcon mx="2px" />
+          Source <IconExternalLink />
         </Anchor>
       </Flex>
     </Container>

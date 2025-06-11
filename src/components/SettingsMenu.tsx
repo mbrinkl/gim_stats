@@ -1,4 +1,4 @@
-import { SettingsIcon, CheckIcon } from "@chakra-ui/icons";
+import { IconSettings, IconCheck } from "@tabler/icons-react";
 import { SortMethod, sortMethodSchema } from "../types";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { ActionIcon, Menu } from "@mantine/core";
@@ -32,7 +32,7 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
     <Menu>
       <Menu.Target>
         <ActionIcon aria-label="settings-button" size="lg" color="gray">
-          <SettingsIcon />
+          <IconSettings />
         </ActionIcon>
       </Menu.Target>
       <Menu.Dropdown>
@@ -42,13 +42,13 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
         <Menu.Divider />
         <Menu.Label>Sort</Menu.Label>
 
-        <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.default)}>
+        <Menu.Item rightSection={<IconCheck />} onClick={() => onChangeSortMethod(sortMethods.default)}>
           Default
         </Menu.Item>
-        <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.alphabetical)}>
+        <Menu.Item rightSection={<IconCheck />} onClick={() => onChangeSortMethod(sortMethods.alphabetical)}>
           Alphabetical
         </Menu.Item>
-        <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.by_count)}>
+        <Menu.Item rightSection={<IconCheck />} onClick={() => onChangeSortMethod(sortMethods.by_count)}>
           By Combined Count
         </Menu.Item>
       </Menu.Dropdown>
