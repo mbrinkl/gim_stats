@@ -2,9 +2,9 @@ import React from "react";
 import ReactDOM from "react-dom/client";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import { RouterProvider, createRouter } from "@tanstack/react-router";
+import { MantineProvider } from "@mantine/core";
 import { routeTree } from "./routeTree.gen";
 import "@mantine/core/styles.css";
-import { MantineProvider } from "@mantine/core";
 
 const queryClient = new QueryClient();
 

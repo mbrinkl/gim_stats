@@ -4,13 +4,7 @@ import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { fetchPlayerQueryOpts } from "../api";
-import {
-  ErrorComponentProps,
-  Link as RouterLink,
-  createFileRoute,
-  useNavigate,
-  useRouter,
-} from "@tanstack/react-router";
+import { ErrorComponentProps, Link as RouterLink, useNavigate, useRouter } from "@tanstack/react-router"
 import { PlayerDetails, SortMethod } from "../types";
 
 const HomePage = () => {
@@ -52,7 +46,7 @@ const HomePageError = (props: ErrorComponentProps) => {
   );
 };
 
-export const Route = createFileRoute("/")({
+export const Route = createFileRoute({
   component: HomePage,
   loaderDeps: ({ search: { usernames } }) => ({ usernames }),
   loader: async ({ context: { queryClient }, deps: { usernames } }) => {

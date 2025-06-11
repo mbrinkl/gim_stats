@@ -1,6 +1,6 @@
 import { EditUsernamesForm } from "../components/EditUsernamesForm";
 import { Center } from "@mantine/core";
-import { createFileRoute, useNavigate } from "@tanstack/react-router";
+import { useNavigate } from "@tanstack/react-router";
 
 const EditPage = () => {
   const { usernames } = Route.useSearch();
@@ -19,6 +19,6 @@ const EditPage = () => {
   );
 };
 
-export const Route = createFileRoute("/edit")({
+export const Route = createFileRoute({
   component: EditPage,
 });
