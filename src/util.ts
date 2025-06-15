@@ -1,10 +1,11 @@
-import { ALIASES, HIDDEN_ACTIVITIES } from "./config";
+import { ALIASES, HIDDEN_ACTIVITIES, WOM_BG_OVERRIDE_MAP, WOM_METRIC_MAP } from "./config";
 import { Activity, ImageData, PlayerDetails, Skill, Combined, PlayerData, SortMethod } from "./types";
 
 /**
  * Convert unranked counts from -1 to 0
  */
 export const normalizeCount = (count: number): number => (count === -1 ? 0 : count);
+
 /**
  * Format a count value into formatted string
  */
@@ -17,26 +18,23 @@ export const formatCount = (count: number): string => {
 };
 
 /**
- * Get PNG for metric from WOM GitHub repo
+ * Get PNG URLs for a metric from the WOM GitHub repo.
  */
 export const getWomImages = (metric: string): ImageData => {
-  let formatted = metric
-    .toLocaleLowerCase()
+  const normalized = metric
+    .toLowerCase()
     .replace(" - rank", "")
-    .replace(/ |-/g, "_")
+    .replace(/[\s-]/g, "_")
     .replace(/[()':]/g, "");
-  if (formatted === "runecraft") {
-    formatted = "runecrafting";
-  } else if (formatted === "tombs_of_amascut_expert_mode") {
-    formatted = "tombs_of_amascut_expert";
-  } else if (formatted === "rifts_closed") {
-    formatted = "guardians_of_the_rift";
-  } else if (formatted === "lms") {
-    formatted = "last_man_standing";
-  }
+
+  const formatted = WOM_METRIC_MAP[normalized] ?? normalized;
+  const formattedBg = WOM_BG_OVERRIDE_MAP[formatted] ?? formatted;
+
+  const baseUrl = "https://raw.githubusercontent.com/wise-old-man/wise-old-man/master/app/public/img";
+
   return {
-    backgroundImg: `https://raw.githubusercontent.com/wise-old-man/wise-old-man/master/app/public/img/backgrounds/${formatted}.png`,
-    metricImg: `https://raw.githubusercontent.com/wise-old-man/wise-old-man/master/app/public/img/metrics/${formatted}.png`,
+    backgroundImg: `${baseUrl}/backgrounds/${formattedBg}.png`,
+    metricImg: `${baseUrl}/metrics/${formatted}.png`,
   };
 };
 

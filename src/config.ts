@@ -31,3 +31,14 @@ export const MIN_NUM_USERNAMES: number = 2;
 export const MAX_NUM_USERNAMES: number = 10;
 
 export const USERNAME_REGEX: RegExp = /^[a-zA-Z0-9](([a-zA-Z0-9_ -]{0,10})[a-zA-Z0-9])?$/;
+
+export const WOM_METRIC_MAP: Record<string, string> = {
+  runecraft: "runecrafting",
+  tombs_of_amascut_expert_mode: "tombs_of_amascut_expert",
+  rifts_closed: "guardians_of_the_rift",
+  lms: "last_man_standing",
+};
+
+export const WOM_BG_OVERRIDE_MAP: Record<string, string> = {
+  mimic: "clue_scrolls_all", // no mimic bg available on wom
+};
