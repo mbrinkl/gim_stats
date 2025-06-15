@@ -3,18 +3,25 @@ import { SortMethod, sortMethodSchema } from "../types";
 import { Link as RouterLink } from "@tanstack/react-router";
 import { ActionIcon, Menu } from "@mantine/core";
 
-// interface SettingsMenuSortItemProps {
-//   value: SortMethod;
-//   selectedValue: SortMethod;
-//   displayText: string;
-//   onSelect: () => void
-// }
+interface SettingsMenuSortItemProps {
+  value: SortMethod;
+  selectedValue: SortMethod;
+  displayText: string;
+  onSelect: (value: SortMethod) => void;
+}
 
-// const SettingsMenuSortItem = (props: SettingsMenuSortItemProps) => {
-//   return         <Menu.Item rightSection={<CheckIcon />} onClick={() => onChangeSortMethod(sortMethods.by_count)}>
-//           {props.displayText}
-//         </Menu.Item>
-// }
+const SettingsMenuSortItem = (props: SettingsMenuSortItemProps) => {
+  const isSelected = props.value === props.selectedValue;
+  return (
+    <Menu.Item
+      rightSection={isSelected && <IconCheck />}
+      onClick={() => props.onSelect(props.value)}
+      style={{ textTransform: "capitalize" }}
+    >
+      {props.displayText}
+    </Menu.Item>
+  );
+};
 
 interface SettingsMenuProps {
   sortMethod: SortMethod;
@@ -42,15 +49,14 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
         <Menu.Divider />
         <Menu.Label>Sort</Menu.Label>
 
-        <Menu.Item rightSection={<IconCheck />} onClick={() => onChangeSortMethod(sortMethods.default)}>
-          Default
-        </Menu.Item>
-        <Menu.Item rightSection={<IconCheck />} onClick={() => onChangeSortMethod(sortMethods.alphabetical)}>
-          Alphabetical
-        </Menu.Item>
-        <Menu.Item rightSection={<IconCheck />} onClick={() => onChangeSortMethod(sortMethods.by_count)}>
-          By Combined Count
-        </Menu.Item>
+        {[sortMethods.default, sortMethods.alphabetical, sortMethods.by_count].map((sortMethod) => (
+          <SettingsMenuSortItem
+            value={sortMethod}
+            selectedValue={props.sortMethod}
+            onSelect={onChangeSortMethod}
+            displayText={sortMethod.toString().replace("_", " ")}
+          />
+        ))}
       </Menu.Dropdown>
     </Menu>
   );

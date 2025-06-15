@@ -8,7 +8,7 @@ interface CombinedCountGroupProps {
 }
 
 export const CombinedCountGroup = (props: CombinedCountGroupProps) => {
-  const getTitle = (combined: Combined): JSX.Element => {
+  const getTitle = (combined: Combined): React.JSX.Element => {
     if (!combined.metric.highlight) {
       return <Text>{combined.metric.name}</Text>;
     }
