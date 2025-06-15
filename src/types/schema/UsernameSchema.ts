@@ -52,13 +52,11 @@ export const editUsernamesFormSchema = z.object({
     }),
 });
 
-// Schema if isAdmin is false: items must be valid
 const groupSchema = z.object({
   formType: z.literal("groupname"),
   groupname: z.string().min(1).max(12),
 });
 
-// Discriminated union on `isAdmin`
 export const editFormSchema = z.discriminatedUnion("formType", [editUsernamesFormSchema, groupSchema]);
 
 export type EditFormSchema = z.infer<typeof editFormSchema>;

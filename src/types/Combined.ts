@@ -1,5 +1,7 @@
+import React from "react";
+
 export interface HighlightedValue {
-  value: JSX.Element;
+  value: React.JSX.Element;
   isAlias: boolean;
 }
 

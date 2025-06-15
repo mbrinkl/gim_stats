@@ -36,7 +36,7 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
   const sortMethods = sortMethodSchema.removeCatch().enum;
 
   return (
-    <Menu>
+    <Menu position="bottom-end">
       <Menu.Target>
         <ActionIcon aria-label="settings-button" size="lg" color="gray">
           <IconSettings />
