@@ -5,7 +5,7 @@ import { Link as RouterLink } from "@tanstack/react-router";
 import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { editFormSchema, EditFormSchema } from "../types";
-import { useEffect, useState } from "react";
+import { useState } from "react";
 import { useFetchGroupMutation } from "../api";
 
 interface EditUsernamesFormProps {
@@ -35,21 +35,12 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
     name: "playerNames",
   });
 
-  const { mutate: fetchGroup, isError } = useFetchGroupMutation(props.onSubmit);
-  // const toast = useToast();
+  const onFetchGroupSuccess = (playerNames: string[]) => {
+    setIsNavLoading(true);
+    props.onSubmit(playerNames);
+  };
 
-  // useEffect(() => {
-  //   if (isError) {
-  //     toast({
-  //       id: "get_group_error_toast",
-  //       title: "Error.",
-  //       description: "Unable to fetch usernames for group",
-  //       status: "error",
-  //       duration: 9000,
-  //       isClosable: true,
-  //     });
-  //   }
-  // }, [isError, toast]);
+  const { mutate: fetchGroup, isPending: isFetchingGroup } = useFetchGroupMutation(onFetchGroupSuccess);
 
   const onAddClick = () => {
     append({ value: "" });
@@ -64,10 +55,10 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
   };
 
   const onSubmit: SubmitHandler<EditFormSchema> = (e) => {
-    setIsNavLoading(true);
     if (e.formType === "groupname") {
       fetchGroup(e.groupname);
     } else {
+      setIsNavLoading(true);
       props.onSubmit(e.playerNames.map((u) => u.value));
     }
   };
@@ -127,10 +118,7 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
                       trigger(nonEmptyFieldIndicies as `playerNames.${number}`[]);
                     },
                   })}
-                  error={
-                    (errors as any).playerNames?.[index]?.value?.message &&
-                    (errors as any).playerNames[index].value.message
-                  }
+                  error={"playerNames" in errors && errors.playerNames?.[index]?.value?.message}
                 />
                 <ActionIcon aria-label="delete" onClick={() => onDeleteClick(index)} size="md">
                   <IconTrash />
@@ -148,7 +136,7 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
           <Button component={RouterLink} to="/" search={true} color="red">
             Cancel
           </Button>
-          <Button type="submit" disabled={!isValid} color="blue" loading={isNavLoading}>
+          <Button type="submit" disabled={!isValid} color="blue" loading={isFetchingGroup || isNavLoading}>
             Done
           </Button>
         </Flex>

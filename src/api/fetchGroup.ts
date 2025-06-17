@@ -1,3 +1,4 @@
+import { notifications } from "@mantine/notifications";
 import { useMutation } from "@tanstack/react-query";
 
 const fetchGroup = async (groupName: string): Promise<string[]> => {
@@ -33,4 +34,11 @@ export const useFetchGroupMutation = (onSuccess: (groupUsernames: string[]) => v
   useMutation({
     mutationFn: fetchGroup,
     onSuccess,
+    onError: () => {
+      notifications.show({
+        title: "Error.",
+        message: "Unable to fetch usernames for group",
+        color: "red",
+      });
+    },
   });

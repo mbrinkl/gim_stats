@@ -4,7 +4,7 @@ import { useState } from "react";
 import { SearchBar } from "../components/SearchBar";
 import { SettingsMenu } from "../components/SettingsMenu";
 import { fetchPlayerQueryOpts } from "../api";
-import { ErrorComponentProps, Link as RouterLink, useNavigate, useRouter } from "@tanstack/react-router"
+import { ErrorComponentProps, Link as RouterLink, useNavigate, useRouter } from "@tanstack/react-router";
 import { PlayerDetails, SortMethod } from "../types";
 
 const HomePage = () => {
@@ -14,7 +14,7 @@ const HomePage = () => {
   const navigate = useNavigate();
 
   const setSortMethod = (value: SortMethod) => {
-    navigate({ search: (prev) => ({ ...prev, sort: value }) });
+    navigate({ to: ".", search: (prev) => ({ ...prev, sort: value }) });
   };
 
   return (
@@ -40,7 +40,7 @@ const HomePageError = (props: ErrorComponentProps) => {
         <Anchor component={RouterLink} to="/edit" search={true}>
           Change Usernames
         </Anchor>
-        <Button onClick={router.invalidate}>Retry</Button>
+        <Button onClick={() => router.invalidate()}>Retry</Button>
       </Flex>
     </Center>
   );
