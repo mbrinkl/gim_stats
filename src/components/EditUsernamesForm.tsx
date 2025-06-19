@@ -1,12 +1,12 @@
-import { IconPlus, IconTrash } from "@tabler/icons-react";
-import { ActionIcon, Button, Flex, Radio, TextInput } from "@mantine/core";
-import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../config";
-import { Link as RouterLink } from "@tanstack/react-router";
-import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { zodResolver } from "@hookform/resolvers/zod";
-import { editFormSchema, EditFormSchema } from "../types";
+import { ActionIcon, Button, Flex, Radio, TextInput } from "@mantine/core";
+import { IconPlus, IconTrash } from "@tabler/icons-react";
+import { Link as RouterLink } from "@tanstack/react-router";
 import { useState } from "react";
+import { Controller, SubmitHandler, useFieldArray, useForm } from "react-hook-form";
 import { useFetchGroupMutation } from "../api";
+import { MAX_NUM_USERNAMES, MIN_NUM_USERNAMES } from "../config";
+import { EditFormSchema, editFormSchema } from "../types";
 
 interface EditUsernamesFormProps {
   usernames: string[];

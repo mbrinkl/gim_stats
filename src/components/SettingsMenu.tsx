@@ -1,7 +1,7 @@
-import { IconSettings, IconCheck } from "@tabler/icons-react";
-import { SortMethod, sortMethodSchema } from "../types";
-import { Link as RouterLink } from "@tanstack/react-router";
 import { ActionIcon, Menu } from "@mantine/core";
+import { IconCheck, IconSettings } from "@tabler/icons-react";
+import { Link as RouterLink } from "@tanstack/react-router";
+import { SortMethod, sortMethodSchema } from "../types";
 
 interface SettingsMenuSortItemProps {
   value: SortMethod;

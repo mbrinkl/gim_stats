@@ -1,6 +1,6 @@
-import { CombinedCountGroup } from "./CombinedCountGroup";
-import { Combined } from "../../types";
 import type { Meta, StoryObj } from "@storybook/react-vite";
+import { Combined } from "../../types";
+import { CombinedCountGroup } from "./CombinedCountGroup";
 
 const CombinedCountGroupStory = () => {
   const combinedCounts: Combined[] = [

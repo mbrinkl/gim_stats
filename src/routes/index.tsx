@@ -1,10 +1,10 @@
-import { Button, Center, Flex, Text, Stack, Anchor } from "@mantine/core";
-import { PlayerTotals } from "../components/PlayerTotals";
+import { Anchor, Button, Center, Flex, Stack, Text } from "@mantine/core";
+import { ErrorComponentProps, Link as RouterLink, useNavigate, useRouter } from "@tanstack/react-router";
 import { useState } from "react";
+import { fetchPlayerQueryOpts } from "../api";
+import { PlayerTotals } from "../components/PlayerTotals";
 import { SearchBar } from "../components/SearchBar";
 import { SettingsMenu } from "../components/SettingsMenu";
-import { fetchPlayerQueryOpts } from "../api";
-import { ErrorComponentProps, Link as RouterLink, useNavigate, useRouter } from "@tanstack/react-router";
 import { PlayerDetails, SortMethod } from "../types";
 
 const HomePage = () => {

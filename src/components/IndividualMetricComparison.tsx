@@ -1,6 +1,6 @@
 import { Table } from "@mantine/core";
-import { formatCount } from "../util";
 import { Combined } from "../types";
+import { formatCount } from "../util";
 
 interface IndividualMetricComparisonProps {
   combined: Combined;

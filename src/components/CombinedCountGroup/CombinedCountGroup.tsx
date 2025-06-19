@@ -1,7 +1,7 @@
-import { Image, Flex, Text, Stack, Box } from "@mantine/core";
+import { Box, Flex, Image, Stack, Text } from "@mantine/core";
+import { Combined } from "../../types";
 import { formatCount, getWomImages } from "../../util";
 import { IndividualMetricComparison } from "../IndividualMetricComparison";
-import { Combined } from "../../types";
 
 interface CombinedCountGroupProps {
   combinedCounts: Combined[];

@@ -1,11 +1,10 @@
-import { IconExternalLink } from "@tabler/icons-react";
-import { Container, Flex, Text, Box, Anchor, Center } from "@mantine/core";
-import { QueryClient } from "@tanstack/react-query";
-import { Outlet, createRootRouteWithContext, Link as RouterLink } from "@tanstack/react-router";
-import { SearchParams, usernameSearchSchema } from "../types";
-import { DEFAULT_USERNAMES } from "../config";
-import { sortMethodSchema } from "../types";
+import { Anchor, Box, Center, Container, Flex, Text } from "@mantine/core";
 import { notifications } from "@mantine/notifications";
+import { IconExternalLink } from "@tabler/icons-react";
+import { QueryClient } from "@tanstack/react-query";
+import { Link as RouterLink, Outlet, createRootRouteWithContext } from "@tanstack/react-router";
+import { DEFAULT_USERNAMES } from "../config";
+import { SearchParams, sortMethodSchema, usernameSearchSchema  } from "../types";
 
 const Layout = () => {
   return (

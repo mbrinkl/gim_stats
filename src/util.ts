@@ -1,5 +1,5 @@
 import { ALIASES, HIDDEN_ACTIVITIES, WOM_BG_OVERRIDE_MAP, WOM_METRIC_MAP } from "./config";
-import { Activity, ImageData, PlayerDetails, Skill, Combined, PlayerData, SortMethod } from "./types";
+import { Activity, Combined, ImageData, PlayerData, PlayerDetails, Skill, SortMethod } from "./types";
 
 /**
  * Convert unranked counts from -1 to 0

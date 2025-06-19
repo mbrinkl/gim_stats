@@ -1,5 +1,5 @@
-import { IconX } from "@tabler/icons-react";
 import { ActionIcon, TextInput } from "@mantine/core";
+import { IconX } from "@tabler/icons-react";
 
 interface SearchBarProps {
   value: string;

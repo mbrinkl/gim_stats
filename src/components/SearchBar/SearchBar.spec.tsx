@@ -1,5 +1,5 @@
-import { SearchBar } from "./SearchBar";
 import { render, screen, userEvent } from "../../../test-utils";
+import { SearchBar } from "./SearchBar";
 
 const mockOnChange = vi.fn();
 

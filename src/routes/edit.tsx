@@ -1,6 +1,6 @@
-import { EditUsernamesForm } from "../components/EditUsernamesForm";
 import { Center } from "@mantine/core";
 import { useNavigate } from "@tanstack/react-router";
+import { EditUsernamesForm } from "../components/EditUsernamesForm";
 
 const EditPage = () => {
   const { usernames } = Route.useSearch();

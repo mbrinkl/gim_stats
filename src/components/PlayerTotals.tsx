@@ -1,9 +1,9 @@
 import { Text } from "@mantine/core";
+import fuzzysort from "fuzzysort";
+import { useMemo } from "react";
+import { Combined, PlayerDetails, SortMethod } from "../types";
 import { combine } from "../util";
 import { CombinedCountGroup } from "./CombinedCountGroup";
-import { Combined, PlayerDetails, SortMethod } from "../types";
-import { useMemo } from "react";
-import fuzzysort from "fuzzysort";
 import { TabbedTotals } from "./TabbedTotals";
 
 interface PlayerTotalsProps {
