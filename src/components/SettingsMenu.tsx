@@ -51,6 +51,7 @@ export const SettingsMenu = (props: SettingsMenuProps) => {
 
         {[sortMethods.default, sortMethods.alphabetical, sortMethods.by_count].map((sortMethod) => (
           <SettingsMenuSortItem
+            key={sortMethod}
             value={sortMethod}
             selectedValue={props.sortMethod}
             onSelect={onChangeSortMethod}
