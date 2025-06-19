@@ -86,7 +86,9 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
         />
         {formType === "groupname" && (
           <TextInput
+            placeholder="GIM Group Name"
             w="100%"
+            size="md"
             maxLength={12}
             required
             autoComplete="off"
@@ -102,6 +104,7 @@ export const EditUsernamesForm = (props: EditUsernamesFormProps) => {
               <Flex key={u.id} gap="1rem" align="center" justify="center">
                 <TextInput
                   w="100%"
+                  size="md"
                   maxLength={12}
                   required
                   autoComplete="off"

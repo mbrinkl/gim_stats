@@ -21,5 +21,14 @@ export const SearchBar = (props: SearchBarProps) => {
     </ActionIcon>
   ) : null;
 
-  return <TextInput placeholder="Search" w="100%" rightSection={clearButton} onChange={onSearch} value={props.value} />;
+  return (
+    <TextInput
+      placeholder="Search"
+      w="100%"
+      size="md"
+      rightSection={clearButton}
+      onChange={onSearch}
+      value={props.value}
+    />
+  );
 };
