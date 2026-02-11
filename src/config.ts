@@ -3,6 +3,7 @@ export const DEFAULT_USERNAMES: string[] = ["v_trajan_v", "v_aurelius_v", "v_had
 export const HIDDEN_ACTIVITIES: string[] = [
   "League Points",
   "Deadman Points",
+  "Grid Points",
   "Bounty Hunter - Hunter",
   "Bounty Hunter - Rogue",
   "Bounty Hunter (Legacy) - Hunter",
