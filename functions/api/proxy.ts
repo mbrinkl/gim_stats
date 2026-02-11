@@ -6,7 +6,19 @@ export const onRequest = async (context: any) => {
 
   const originHeader = request.headers.get("origin");
   const refererHeader = request.headers.get("referer");
-  const origin = originHeader || refererHeader;
+
+  // If origin missing, fallback to referer
+  const fullUrl = originHeader || refererHeader;
+
+  let origin: string = "";
+  if (fullUrl) {
+    try {
+      const { protocol, hostname, port } = new URL(fullUrl);
+      origin = `${protocol}//${hostname}${port ? ":" + port : ""}`;
+    } catch {
+      // swallow
+    }
+  }
 
   const isLocalhost = origin?.startsWith("http://localhost") || origin?.startsWith("http://127.0.0.1");
 
