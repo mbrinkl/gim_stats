@@ -4,9 +4,13 @@ export const onRequest = async (context: any) => {
 
   const allowedOrigins = ["https://gim.mbrinkl.dev"];
 
-  const origin = request.headers.get("origin");
+  const originHeader = request.headers.get("origin");
+  const refererHeader = request.headers.get("referer");
+  const origin = originHeader || refererHeader;
 
-  if (!origin || !allowedOrigins.includes(origin)) {
+  const isLocalhost = origin?.startsWith("http://localhost") || origin?.startsWith("http://127.0.0.1");
+
+  if (!allowedOrigins.includes(origin!) && !isLocalhost) {
     return new Response("Forbidden", { status: 403 });
   }
 
