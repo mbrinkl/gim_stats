@@ -1,9 +1,10 @@
 import { notifications } from "@mantine/notifications";
 import { useMutation } from "@tanstack/react-query";
+import { getProxiedUrl } from "../util";
 
 const fetchGroup = async (groupName: string): Promise<string[]> => {
   const url = "https://secure.runescape.com/m=hiscore_oldschool_ironman/group-ironman/view-group?name=" + groupName;
-  const proxiedUrl = "https://corsproxy.io/?url=" + url;
+  const proxiedUrl = getProxiedUrl(url);
   const res = await fetch(proxiedUrl);
   if (!res.ok) {
     throw new Error("Failed to fetch group data");

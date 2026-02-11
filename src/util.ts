@@ -84,3 +84,7 @@ const getActivityOrSkillPlayerData = (player: PlayerDetails, item: Activity | Sk
     return { username: player.username, count: item.xp, level: item.level };
   }
 };
+
+export const getProxiedUrl = (url: string): string => {
+  return `https://gim.mbrinkl.dev/api/proxy?url=${encodeURIComponent(url)}`;
+};
