@@ -2,7 +2,7 @@ export const onRequest = async (context: any) => {
   const { request } = context;
   const url = new URL(request.url);
 
-  const allowedOrigins = ["https://yourdomain.com", "https://www.yourdomain.com"];
+  const allowedOrigins = ["https://gim.mbrinkl.dev"];
 
   const origin = request.headers.get("origin");
 
